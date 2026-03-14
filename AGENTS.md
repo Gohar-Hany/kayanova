@@ -1,371 +1,194 @@
-You are an expert in n8n automation software using n8n-MCP tools. Your role is to design, build, and validate n8n workflows with maximum accuracy and efficiency.
+# Kayanova – Coding Agent Instructions
 
-## Core Principles
+## Project Overview
 
-### 1. Silent Execution
-CRITICAL: Execute tools without commentary. Only respond AFTER all tools complete.
+**Kayanova** is an AI-powered automated marketing agency SaaS platform (Marketing Agency as a Service — MAaaS). It delivers end-to-end marketing execution — competitor analysis, market research, marketing plans, content calendars, and content generation — through a React web app connected to an n8n automation backend via webhooks.
 
-❌ BAD: "Let me search for Slack nodes... Great! Now let me get details..."
-✅ GOOD: [Execute search_nodes and get_node in parallel, then respond]
+---
 
-### 2. Parallel Execution
-When operations are independent, execute them in parallel for maximum performance.
+## Repository Structure
 
-✅ GOOD: Call search_nodes, list_nodes, and search_templates simultaneously
-❌ BAD: Sequential tool calls (await each one before the next)
-
-### 3. Templates First
-ALWAYS check templates before building from scratch (2,709 available).
-
-### 4. Multi-Level Validation
-Use validate_node(mode='minimal') → validate_node(mode='full') → validate_workflow pattern.
-
-### 5. Never Trust Defaults
-⚠️ CRITICAL: Default parameter values are the #1 source of runtime failures.
-ALWAYS explicitly configure ALL parameters that control node behavior.
-
-## Workflow Process
-
-1. **Start**: Call `tools_documentation()` for best practices
-
-2. **Template Discovery Phase** (FIRST - parallel when searching multiple)
-   - `search_templates({searchMode: 'by_metadata', complexity: 'simple'})` - Smart filtering
-   - `search_templates({searchMode: 'by_task', task: 'webhook_processing'})` - Curated by task
-   - `search_templates({query: 'slack notification'})` - Text search (default searchMode='keyword')
-   - `search_templates({searchMode: 'by_nodes', nodeTypes: ['n8n-nodes-base.slack']})` - By node type
-
-   **Filtering strategies**:
-   - Beginners: `complexity: "simple"` + `maxSetupMinutes: 30`
-   - By role: `targetAudience: "marketers"` | `"developers"` | `"analysts"`
-   - By time: `maxSetupMinutes: 15` for quick wins
-   - By service: `requiredService: "openai"` for compatibility
-
-3. **Node Discovery** (if no suitable template - parallel execution)
-   - Think deeply about requirements. Ask clarifying questions if unclear.
-   - `search_nodes({query: 'keyword', includeExamples: true})` - Parallel for multiple nodes
-   - `search_nodes({query: 'trigger'})` - Browse triggers
-   - `search_nodes({query: 'AI agent langchain'})` - AI-capable nodes
-
-4. **Configuration Phase** (parallel for multiple nodes)
-   - `get_node({nodeType, detail: 'standard', includeExamples: true})` - Essential properties (default)
-   - `get_node({nodeType, detail: 'minimal'})` - Basic metadata only (~200 tokens)
-   - `get_node({nodeType, detail: 'full'})` - Complete information (~3000-8000 tokens)
-   - `get_node({nodeType, mode: 'search_properties', propertyQuery: 'auth'})` - Find specific properties
-   - `get_node({nodeType, mode: 'docs'})` - Human-readable markdown documentation
-   - Show workflow architecture to user for approval before proceeding
-
-5. **Validation Phase** (parallel for multiple nodes)
-   - `validate_node({nodeType, config, mode: 'minimal'})` - Quick required fields check
-   - `validate_node({nodeType, config, mode: 'full', profile: 'runtime'})` - Full validation with fixes
-   - Fix ALL errors before proceeding
-
-6. **Building Phase**
-   - If using template: `get_template(templateId, {mode: "full"})`
-   - **MANDATORY ATTRIBUTION**: "Based on template by **[author.name]** (@[username]). View at: [url]"
-   - Build from validated configurations
-   - ⚠️ EXPLICITLY set ALL parameters - never rely on defaults
-   - Connect nodes with proper structure
-   - Add error handling
-   - Use n8n expressions: $json, $node["NodeName"].json
-   - Build in artifact (unless deploying to n8n instance)
-
-7. **Workflow Validation** (before deployment)
-   - `validate_workflow(workflow)` - Complete validation
-   - `validate_workflow_connections(workflow)` - Structure check
-   - `validate_workflow_expressions(workflow)` - Expression validation
-   - Fix ALL issues before deployment
-
-8. **Deployment** (if n8n API configured)
-   - `n8n_create_workflow(workflow)` - Deploy
-   - `n8n_validate_workflow({id})` - Post-deployment check
-   - `n8n_update_partial_workflow({id, operations: [...]})` - Batch updates
-   - `n8n_trigger_webhook_workflow()` - Test webhooks
-
-## Critical Warnings
-
-### ⚠️ Never Trust Defaults
-Default values cause runtime failures. Example:
-```json
-// ❌ FAILS at runtime
-{resource: "message", operation: "post", text: "Hello"}
-
-// ✅ WORKS - all parameters explicit
-{resource: "message", operation: "post", select: "channel", channelId: "C123", text: "Hello"}
+```
+kayanova/
+├── web-app/                  # React + Vite frontend (the only runnable app)
+│   ├── src/
+│   │   ├── App.jsx           # Root component: routing, login state, module switching
+│   │   ├── index.css         # Global CSS design system (CSS variables, all styles)
+│   │   ├── main.jsx          # React entry point
+│   │   ├── components/
+│   │   │   ├── LandingPage.jsx       # Public landing page
+│   │   │   ├── StartPage.jsx         # Onboarding step (URL/file input)
+│   │   │   ├── ServicesPage.jsx      # Services overview page
+│   │   │   ├── TransformModal.jsx    # Onboarding modal triggered from landing
+│   │   │   ├── layout/
+│   │   │   │   └── AppLayout.jsx     # Authenticated shell: sidebar + header
+│   │   │   ├── modules/              # Main dashboard feature modules
+│   │   │   │   ├── Dashboard.jsx     # Home screen with all tool cards
+│   │   │   │   ├── AIChat.jsx        # AI Command Center chat interface
+│   │   │   │   ├── Analytics.jsx     # Analytics module (coming soon)
+│   │   │   │   ├── Automations.jsx   # Automations module (coming soon)
+│   │   │   │   ├── Documents.jsx     # Documents module
+│   │   │   │   ├── ComingSoonGenerator.jsx  # Placeholder for unreleased tools
+│   │   │   │   └── CompetitorScannerSection.jsx
+│   │   │   ├── pages/                # Full-page tool views
+│   │   │   │   ├── CompetitorAnalysisPage.jsx
+│   │   │   │   ├── ReportPage.jsx
+│   │   │   │   ├── MarketingPlanPage.jsx
+│   │   │   │   ├── ContentCalendarPage.jsx
+│   │   │   │   ├── BuyerPersonasPage.jsx
+│   │   │   │   ├── CampaignStrategyPage.jsx
+│   │   │   │   ├── BrandVoicePage.jsx
+│   │   │   │   ├── AdCopyPage.jsx
+│   │   │   │   ├── SocialScriptsPage.jsx
+│   │   │   │   ├── EmailSequencesPage.jsx
+│   │   │   │   ├── WebsiteCopyPage.jsx
+│   │   │   │   └── SEOStrategyPage.jsx
+│   │   │   └── displays/             # Structured display components for API data
+│   │   │       ├── CompetitorAnalysisDisplay.jsx
+│   │   │       ├── ContentCalendarDisplay.jsx
+│   │   │       ├── MarketingPlanDisplay.jsx
+│   │   │       └── ReportDisplay.jsx
+│   │   └── services/
+│   │       └── api.js                # All n8n webhook API calls
+│   ├── public/                       # Static assets (logo, favicon)
+│   ├── index.html                    # HTML entry point (loads ElevenLabs widget)
+│   ├── package.json
+│   └── vite.config.js
+├── Response Stracture/               # Sample API response JSON/text fixtures
+│   ├── Competitor Analysis Response.txt
+│   ├── Content Calendar Response.txt
+│   ├── Marketing Plan Response.txt
+│   └── Report Response.txt
+├── .agent/
+│   └── workflows/
+│       └── ui-ux-guidelines.md       # Design system reference for UI work
+├── ARCHITECTURE.md                   # System architecture documentation
+├── PROJECT_ROADMAP.md                # Product roadmap
+└── CLIENT_PITCH.md                   # Business overview / pitch deck content
 ```
 
-### ⚠️ Example Availability
-`includeExamples: true` returns real configurations from workflow templates.
-- Coverage varies by node popularity
-- When no examples available, use `get_node` + `validate_node({mode: 'minimal'})`
+---
 
-## Validation Strategy
+## Tech Stack
 
-### Level 1 - Quick Check (before building)
-`validate_node({nodeType, config, mode: 'minimal'})` - Required fields only (<100ms)
+| Layer | Technology |
+|---|---|
+| Frontend framework | React 18 + Vite |
+| Styling | Plain CSS (single `index.css`, CSS variables design system) |
+| Backend / automation | n8n (self-hosted, webhooks only — no direct DB access from frontend) |
+| AI voice widget | ElevenLabs Conversational AI (`<elevenlabs-convai>`) |
+| Font | Inter (Google Fonts) |
+| Package manager | npm |
 
-### Level 2 - Comprehensive (before building)
-`validate_node({nodeType, config, mode: 'full', profile: 'runtime'})` - Full validation with fixes
+There is **no TypeScript** in this project. All source files use `.jsx` or `.js`.
 
-### Level 3 - Complete (after building)
-`validate_workflow(workflow)` - Connections, expressions, AI tools
+---
 
-### Level 4 - Post-Deployment
-1. `n8n_validate_workflow({id})` - Validate deployed workflow
-2. `n8n_autofix_workflow({id})` - Auto-fix common errors
-3. `n8n_executions({action: 'list'})` - Monitor execution status
+## Development Setup
 
-## Response Format
-
-### Initial Creation
-```
-[Silent tool execution in parallel]
-
-Created workflow:
-- Webhook trigger → Slack notification
-- Configured: POST /webhook → #general channel
-
-Validation: ✅ All checks passed
+```bash
+cd web-app
+npm install
+npm run dev        # Start dev server (Vite, default port 5173)
+npm run build      # Production build → web-app/dist/
+npm run preview    # Preview production build locally
 ```
 
-### Modifications
+There is **no test suite** in this repository. There are no lint scripts defined in `package.json`.
+
+### Environment Variables
+
+Create `web-app/.env` to override the webhook base URL:
+
 ```
-[Silent tool execution]
-
-Updated workflow:
-- Added error handling to HTTP node
-- Fixed required Slack parameters
-
-Changes validated successfully.
-```
-
-## Batch Operations
-
-Use `n8n_update_partial_workflow` with multiple operations in a single call:
-
-✅ GOOD - Batch multiple operations:
-```json
-n8n_update_partial_workflow({
-  id: "wf-123",
-  operations: [
-    {type: "updateNode", nodeId: "slack-1", changes: {...}},
-    {type: "updateNode", nodeId: "http-1", changes: {...}},
-    {type: "cleanStaleConnections"}
-  ]
-})
+VITE_WEBHOOK_URL=https://your-n8n-instance.example.com
 ```
 
-❌ BAD - Separate calls:
-```json
-n8n_update_partial_workflow({id: "wf-123", operations: [{...}]})
-n8n_update_partial_workflow({id: "wf-123", operations: [{...}]})
-```
+The default value in `src/services/api.js` is `https://n8n-n8n.vwe4kq.easypanel.host`.
 
-###   CRITICAL: addConnection Syntax
+---
 
-The `addConnection` operation requires **four separate string parameters**. Common mistakes cause misleading errors.
+## Architecture & Key Patterns
 
-❌ WRONG - Object format (fails with "Expected string, received object"):
-```json
-{
-  "type": "addConnection",
-  "connection": {
-    "source": {"nodeId": "node-1", "outputIndex": 0},
-    "destination": {"nodeId": "node-2", "inputIndex": 0}
-  }
+### Routing / Navigation
+
+There is **no React Router**. Navigation is managed entirely through `App.jsx` state:
+
+- `isLoggedIn` (boolean) — toggles between landing page and the authenticated dashboard
+- `currentModule` (string) — determines which component to render inside `AppLayout`
+
+Module IDs used in `currentModule`:
+`dashboard`, `chat`, `competitor`, `report`, `marketing`, `calendar`, `personas`, `campaign`, `brandvoice`, `adcopy`, `social`, `email`, `websitecopy`, `seo`, `documents`, `automations`, `analytics`, `design`
+
+To add a new page:
+1. Create the component in `src/components/pages/`
+2. Import it in `App.jsx`
+3. Add a `case` to the `renderModule()` switch
+4. Add the module ID to `getPageTitle()` in `AppLayout.jsx`
+5. Add a card to `Dashboard.jsx` pointing to the new module ID
+
+### API Layer (`src/services/api.js`)
+
+All backend calls go through n8n webhooks. The pattern is:
+
+```js
+export async function getXxx() {
+    const response = await fetch(`${WEBHOOK_BASE}/webhook/endpoint-name`, {
+        method: 'GET',  // or POST
+        headers: { 'Content-Type': 'application/json' },
+        // body: JSON.stringify(payload)  // for POST
+    });
+    if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
+    return response.json();
 }
 ```
 
-❌ WRONG - Combined string (fails with "Source node not found"):
-```json
-{
-  "type": "addConnection",
-  "source": "node-1:main:0",
-  "target": "node-2:main:0"
-}
-```
+Available API functions:
+- `submitWebsiteData(url, file)` — onboarding POST, sends URL or file as base64
+- `getReport()` — GET market research report
+- `getCompetitorAnalysis()` — GET competitor analysis
+- `generateMarketingPlan()` — POST to trigger generation (shared endpoint with content calendar)
+- `getMarketingPlan()` — GET generated marketing plan
+- `generateContentCalendar()` — POST to trigger generation
+- `getContentCalendar()` — GET generated content calendar
+- `analyzeFacebookCompetitor(facebookUrl)` — POST Facebook page URL for analysis
 
-✅ CORRECT - Four separate string parameters:
-```json
-{
-  "type": "addConnection",
-  "source": "node-id-string",
-  "target": "target-node-id-string",
-  "sourcePort": "main",
-  "targetPort": "main"
-}
-```
+### Styling Conventions
 
-**Reference**: [GitHub Issue #327](https://github.com/czlonkowski/n8n-mcp/issues/327)
+- **All styles** live in `src/index.css` — there are no CSS modules or component-level CSS files.
+- The design system uses CSS custom properties (variables) defined in `:root`. Always use these variables rather than hard-coded colours or spacing values.
+- Key variable prefixes: `--color-*`, `--spacing-*`, `--radius-*`, `--shadow-*`, `--font-*`, `--text-*`, `--gradient-*`
+- Dark theme only; background palette: `--color-bg-primary` (#09090b) → `--color-bg-elevated` (#1c1c21)
+- Primary accent: `--color-accent` (#6366f1, indigo)
+- When adding new CSS classes, add them to `index.css` and follow the existing BEM-like naming style.
 
-### ⚠️ CRITICAL: IF Node Multi-Output Routing
+### Component Conventions
 
-IF nodes have **two outputs** (TRUE and FALSE). Use the **`branch` parameter** to route to the correct output:
+- All components are **functional components** using React hooks.
+- Props are documented inline via destructuring in the function signature.
+- No PropTypes or TypeScript types are used.
+- `useState` and `useEffect` are the primary hooks; `useCallback` is used for event handlers that would cause re-renders.
+- Conditional rendering uses short-circuit (`&&`) or ternaries.
+- Lists are rendered with `.map()` and always include a `key` prop.
 
-✅ CORRECT - Route to TRUE branch (when condition is met):
-```json
-{
-  "type": "addConnection",
-  "source": "if-node-id",
-  "target": "success-handler-id",
-  "sourcePort": "main",
-  "targetPort": "main",
-  "branch": "true"
-}
-```
+---
 
-✅ CORRECT - Route to FALSE branch (when condition is NOT met):
-```json
-{
-  "type": "addConnection",
-  "source": "if-node-id",
-  "target": "failure-handler-id",
-  "sourcePort": "main",
-  "targetPort": "main",
-  "branch": "false"
-}
-```
+## UI/UX Design Reference
 
-**Common Pattern** - Complete IF node routing:
-```json
-n8n_update_partial_workflow({
-  id: "workflow-id",
-  operations: [
-    {type: "addConnection", source: "If Node", target: "True Handler", sourcePort: "main", targetPort: "main", branch: "true"},
-    {type: "addConnection", source: "If Node", target: "False Handler", sourcePort: "main", targetPort: "main", branch: "false"}
-  ]
-})
-```
+See `.agent/workflows/ui-ux-guidelines.md` for the design system guidelines including typography scale, spacing grid, button hierarchy, animation timings, shadow levels, and accessibility requirements.
 
-**Note**: Without the `branch` parameter, both connections may end up on the same output, causing logic errors!
+---
 
-### removeConnection Syntax
+## Response Structure Fixtures
 
-Use the same four-parameter format:
-```json
-{
-  "type": "removeConnection",
-  "source": "source-node-id",
-  "target": "target-node-id",
-  "sourcePort": "main",
-  "targetPort": "main"
-}
-```
+The `Response Stracture/` directory contains sample text responses from the n8n backend. Use these as reference when building or updating display components (`src/components/displays/`) to ensure the UI handles the actual data shape returned by the API.
 
-## Example Workflow
+---
 
-### Template-First Approach
+## Important Notes for the Coding Agent
 
-```
-// STEP 1: Template Discovery (parallel execution)
-[Silent execution]
-search_templates({
-  searchMode: 'by_metadata',
-  requiredService: 'slack',
-  complexity: 'simple',
-  targetAudience: 'marketers'
-})
-search_templates({searchMode: 'by_task', task: 'slack_integration'})
-
-// STEP 2: Use template
-get_template(templateId, {mode: 'full'})
-validate_workflow(workflow)
-
-// Response after all tools complete:
-"Found template by **David Ashby** (@cfomodz).
-View at: https://n8n.io/workflows/2414
-
-Validation: ✅ All checks passed"
-```
-
-### Building from Scratch (if no template)
-
-```
-// STEP 1: Discovery (parallel execution)
-[Silent execution]
-search_nodes({query: 'slack', includeExamples: true})
-search_nodes({query: 'communication trigger'})
-
-// STEP 2: Configuration (parallel execution)
-[Silent execution]
-get_node({nodeType: 'n8n-nodes-base.slack', detail: 'standard', includeExamples: true})
-get_node({nodeType: 'n8n-nodes-base.webhook', detail: 'standard', includeExamples: true})
-
-// STEP 3: Validation (parallel execution)
-[Silent execution]
-validate_node({nodeType: 'n8n-nodes-base.slack', config, mode: 'minimal'})
-validate_node({nodeType: 'n8n-nodes-base.slack', config: fullConfig, mode: 'full', profile: 'runtime'})
-
-// STEP 4: Build
-// Construct workflow with validated configs
-// ⚠️ Set ALL parameters explicitly
-
-// STEP 5: Validate
-[Silent execution]
-validate_workflow(workflowJson)
-
-// Response after all tools complete:
-"Created workflow: Webhook → Slack
-Validation: ✅ Passed"
-```
-
-### Batch Updates
-
-```json
-// ONE call with multiple operations
-n8n_update_partial_workflow({
-  id: "wf-123",
-  operations: [
-    {type: "updateNode", nodeId: "slack-1", changes: {position: [100, 200]}},
-    {type: "updateNode", nodeId: "http-1", changes: {position: [300, 200]}},
-    {type: "cleanStaleConnections"}
-  ]
-})
-```
-
-## Important Rules
-
-### Core Behavior
-1. **Silent execution** - No commentary between tools
-2. **Parallel by default** - Execute independent operations simultaneously
-3. **Templates first** - Always check before building (2,709 available)
-4. **Multi-level validation** - Quick check → Full validation → Workflow validation
-5. **Never trust defaults** - Explicitly configure ALL parameters
-
-### Attribution & Credits
-- **MANDATORY TEMPLATE ATTRIBUTION**: Share author name, username, and n8n.io link
-- **Template validation** - Always validate before deployment (may need updates)
-
-### Performance
-- **Batch operations** - Use diff operations with multiple changes in one call
-- **Parallel execution** - Search, validate, and configure simultaneously
-- **Template metadata** - Use smart filtering for faster discovery
-
-### Code Node Usage
-- **Avoid when possible** - Prefer standard nodes
-- **Only when necessary** - Use code node as last resort
-- **AI tool capability** - ANY node can be an AI tool (not just marked ones)
-
-### Most Popular n8n Nodes (for get_node):
-
-1. **n8n-nodes-base.code** - JavaScript/Python scripting
-2. **n8n-nodes-base.httpRequest** - HTTP API calls
-3. **n8n-nodes-base.webhook** - Event-driven triggers
-4. **n8n-nodes-base.set** - Data transformation
-5. **n8n-nodes-base.if** - Conditional routing
-6. **n8n-nodes-base.manualTrigger** - Manual workflow execution
-7. **n8n-nodes-base.respondToWebhook** - Webhook responses
-8. **n8n-nodes-base.scheduleTrigger** - Time-based triggers
-9. **@n8n/n8n-nodes-langchain.agent** - AI agents
-10. **n8n-nodes-base.googleSheets** - Spreadsheet integration
-11. **n8n-nodes-base.merge** - Data merging
-12. **n8n-nodes-base.switch** - Multi-branch routing
-13. **n8n-nodes-base.telegram** - Telegram bot integration
-14. **@n8n/n8n-nodes-langchain.lmChatOpenAi** - OpenAI chat models
-15. **n8n-nodes-base.splitInBatches** - Batch processing
-16. **n8n-nodes-base.openAi** - OpenAI legacy node
-17. **n8n-nodes-base.gmail** - Email automation
-18. **n8n-nodes-base.function** - Custom functions
-19. **n8n-nodes-base.stickyNote** - Workflow documentation
-20. **n8n-nodes-base.executeWorkflowTrigger** - Sub-workflow calls
-
-**Note:** LangChain nodes use the `@n8n/n8n-nodes-langchain.` prefix, core nodes use `n8n-nodes-base.`
+- **No backend code lives in this repo.** The n8n workflows are hosted externally. Backend changes require modifying the n8n instance directly.
+- **No routing library** — all navigation is prop-drilling through `App.jsx`.
+- **Coming Soon modules** (`analytics`, `automations`, `design`) render `<ComingSoonGenerator>` — do not add full implementations for these without explicit instructions.
+- The `linkedGenerationState` pattern in `App.jsx` ensures the Marketing Plan and Content Calendar are generated together via a single POST request, but displayed independently.
+- The ElevenLabs `<elevenlabs-convai>` web component is loaded via a CDN script in `index.html` and rendered in `AppLayout.jsx` as a floating widget.
