@@ -1,3 +1,5 @@
+import { BarChartIcon, TargetIcon, StarIcon, BarChartIcon as TrophyIcon, SearchIcon, SettingsIcon, TrendingUpIcon, CalendarIcon, ShieldIcon, BoltIcon } from '../Icons'
+
 function ReportDisplay({ data }) {
     // Handle the response structure
     const report = data?.analysis_report || data
@@ -54,19 +56,19 @@ function ReportDisplay({ data }) {
     return (
         <div className="report-display">
             <div className="report-header">
-                <h2 className="report-title">📊 Strategic Market Report</h2>
+                <h2 className="report-title"><BarChartIcon size={20} /> Strategic Market Report</h2>
             </div>
 
             <div className="report-grid">
-                {renderSection(report.executive_strategic_vision, 'Executive Strategic Vision', '🎯')}
-                {renderSection(report.the_killer_hook, 'The Killer Hook', '💎')}
-                {renderSection(report.competitive_landscape_matrix, 'Competitive Landscape', '🏆')}
-                {renderSection(report.the_winning_gap_analysis, 'Winning Gap Analysis', '🔮')}
-                {renderSection(report.technical_competitive_moat, 'Technical Moat', '⚙️')}
-                {renderSection(report.strategic_marketing_moat, 'Marketing Moat', '📈')}
-                {renderSection(report.execution_roadmap_90d, '90-Day Roadmap', '🗓️')}
-                {renderSection(report.brand_authority_pillars, 'Brand Authority Pillars', '🏛️')}
-                {renderSection(report.roi_and_value_engineering, 'ROI & Value Engineering', '💰')}
+                {renderSection(report.executive_strategic_vision, 'Executive Strategic Vision', <TargetIcon size={18} />)}
+                {renderSection(report.the_killer_hook, 'The Killer Hook', <StarIcon size={18} />)}
+                {renderSection(report.competitive_landscape_matrix, 'Competitive Landscape', <TrophyIcon size={18} />)}
+                {renderSection(report.the_winning_gap_analysis, 'Winning Gap Analysis', <SearchIcon size={18} />)}
+                {renderSection(report.technical_competitive_moat, 'Technical Moat', <SettingsIcon size={18} />)}
+                {renderSection(report.strategic_marketing_moat, 'Marketing Moat', <TrendingUpIcon size={18} />)}
+                {renderSection(report.execution_roadmap_90d, '90-Day Roadmap', <CalendarIcon size={18} />)}
+                {renderSection(report.brand_authority_pillars, 'Brand Authority Pillars', <ShieldIcon size={18} />)}
+                {renderSection(report.roi_and_value_engineering, 'ROI & Value Engineering', <BoltIcon size={18} />)}
             </div>
         </div>
     )

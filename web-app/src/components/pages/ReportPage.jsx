@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react'
 import { getReport } from '../../services/api'
+import {
+    WarningIcon, ArrowLeftIcon, BarChartIcon, TargetIcon, SparklesIcon,
+    SettingsIcon, ShieldIcon, RocketIcon, LightbulbIcon, CalendarIcon
+} from '../Icons'
 
 function ReportPage({ onBack, userData }) {
     const [loading, setLoading] = useState(true)
@@ -72,7 +76,7 @@ function ReportPage({ onBack, userData }) {
         return (
             <div className="report-section">
                 <h3 className="report-section-title">
-                    <span className="section-icon">{icon}</span>
+                    {icon && <span className="section-icon">{icon}</span>}
                     {title}
                 </h3>
                 <div className="report-section-content">
@@ -91,7 +95,7 @@ function ReportPage({ onBack, userData }) {
         return (
             <div className="report-section competitive-matrix">
                 <h3 className="report-section-title">
-                    <span className="section-icon">🏆</span>
+                    <span className="section-icon"><BarChartIcon size={18} /></span>
                     Competitive Landscape Matrix
                 </h3>
                 <div className="matrix-grid">
@@ -115,7 +119,7 @@ function ReportPage({ onBack, userData }) {
                                 </div>
                                 {weaknessLine && (
                                     <div className="matrix-weakness">
-                                        <span className="weakness-icon">⚠️</span>
+                                        <span className="weakness-icon"><WarningIcon size={14} /></span>
                                         <span className="weakness-text">
                                             {weaknessLine.replace('⚠️ Weakness:', '').trim()}
                                         </span>
@@ -134,11 +138,12 @@ function ReportPage({ onBack, userData }) {
 
         // Parse services
         const services = serviceMap.split('🚀').filter(s => s.trim()).map(s => '🚀' + s)
+        // Note: API data uses emoji as delimiters — preserved for parsing only
 
         return (
             <div className="report-section service-map">
                 <h3 className="report-section-title">
-                    <span className="section-icon">🗺️</span>
+                    <span className="section-icon"><TargetIcon size={18} /></span>
                     Service Map
                 </h3>
                 <div className="services-cards">
@@ -152,7 +157,7 @@ function ReportPage({ onBack, userData }) {
                         return (
                             <div key={idx} className="service-map-card">
                                 <div className="service-map-header">
-                                    <span className="service-emoji">🚀</span>
+                                    <span className="service-emoji"><RocketIcon size={16} /></span>
                                     <h4>{titleMatch ? titleMatch[1].trim() : 'Service'}</h4>
                                 </div>
                                 <p className="service-map-desc">
@@ -160,7 +165,7 @@ function ReportPage({ onBack, userData }) {
                                 </p>
                                 {importance && (
                                     <div className="service-importance">
-                                        <span className="importance-label">💡 Importance:</span>
+                                        <span className="importance-label"><LightbulbIcon size={14} /> Importance:</span>
                                         <p>{importance.replace('Importance:', '').trim()}</p>
                                     </div>
                                 )}
@@ -177,11 +182,12 @@ function ReportPage({ onBack, userData }) {
 
         // Parse phases
         const phases = roadmap.split('📅').filter(p => p.trim()).map(p => '📅' + p)
+        // Note: API data uses emoji as delimiters — preserved for parsing only
 
         return (
             <div className="report-section roadmap">
                 <h3 className="report-section-title">
-                    <span className="section-icon">🗓️</span>
+                    <span className="section-icon"><CalendarIcon size={18} /></span>
                     90-Day Execution Roadmap
                 </h3>
                 <div className="roadmap-timeline">
@@ -230,7 +236,7 @@ function ReportPage({ onBack, userData }) {
         return (
             <div className="service-page">
                 <div className="page-error">
-                    <div className="error-icon">⚠️</div>
+                    <div className="error-icon"><WarningIcon size={36} /></div>
                     <h2>Report Generation Failed</h2>
                     <p>{error}</p>
                     <div className="error-actions">
@@ -248,7 +254,7 @@ function ReportPage({ onBack, userData }) {
                 <button className="back-btn" onClick={onBack}>← Back to Services</button>
                 <div className="page-title-section">
                     <h1 className="page-title">
-                        <span className="page-icon">📊</span>
+                        <span className="page-icon"><BarChartIcon size={24} /></span>
                         Market & Competitive Report
                     </h1>
                     {data?.Brand_Name && (
@@ -263,7 +269,7 @@ function ReportPage({ onBack, userData }) {
             {/* Killer Hook Highlight */}
             {data?.Killer_Hook && (
                 <div className="killer-hook">
-                    <div className="hook-icon">💎</div>
+                    <div className="hook-icon"><SparklesIcon size={24} /></div>
                     <div className="hook-content">
                         <span className="hook-label">The Killer Hook</span>
                         <p className="hook-text">{data.Killer_Hook}</p>
@@ -272,19 +278,19 @@ function ReportPage({ onBack, userData }) {
             )}
 
             <div className="report-content">
-                {renderTextSection(data?.Strategic_Vision, 'Strategic Vision', '🎯')}
-                {renderTextSection(data?.Market_Gap, 'Market Gap Analysis', '🔮')}
-                {renderTextSection(data?.Technical_Moat, 'Technical Moat', '⚙️')}
-                {renderTextSection(data?.Strategic_Moat, 'Strategic Marketing Moat', '🛡️')}
+                {renderTextSection(data?.Strategic_Vision, 'Strategic Vision', <TargetIcon size={18} />)}
+                {renderTextSection(data?.Market_Gap, 'Market Gap Analysis', <LightbulbIcon size={18} />)}
+                {renderTextSection(data?.Technical_Moat, 'Technical Moat', <SettingsIcon size={18} />)}
+                {renderTextSection(data?.Strategic_Moat, 'Strategic Marketing Moat', <ShieldIcon size={18} />)}
                 {renderCompetitiveMatrix(data?.Competitive_Matrix)}
                 {renderServiceMap(data?.Service_Map)}
                 {renderRoadmap(data?.Roadmap_90D)}
-                {renderTextSection(data?.ROI_Engineering, 'ROI Engineering', '💰')}
+                {renderTextSection(data?.ROI_Engineering, 'ROI Engineering', <SparklesIcon size={18} />)}
 
                 {data?.Authority_Pillars && (
                     <div className="report-section authority-pillars">
                         <h3 className="report-section-title">
-                            <span className="section-icon">🏛️</span>
+                            <span className="section-icon"><BarChartIcon size={18} /></span>
                             Authority Pillars
                         </h3>
                         <div className="pillars-list">

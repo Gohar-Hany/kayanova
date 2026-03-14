@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { UsersIcon } from '../Icons'
 
 function BuyerPersonasPage({ onBack }) {
     const [isGenerating, setIsGenerating] = useState(false)
@@ -12,7 +13,7 @@ function BuyerPersonasPage({ onBack }) {
             role: 'Marketing Director',
             age: '32-40',
             income: '$85,000 - $120,000',
-            avatar: '👩‍💼',
+            avatar: 'SM',
             traits: ['Data-driven', 'Early adopter', 'ROI-focused', 'Time-conscious'],
             goals: ['Increase marketing efficiency', 'Prove marketing ROI', 'Automate repetitive tasks'],
             painPoints: ['Limited budget', 'Small team', 'Too many tools', 'Reporting complexity'],
@@ -26,7 +27,7 @@ function BuyerPersonasPage({ onBack }) {
             role: 'Founder / CEO',
             age: '28-38',
             income: '$100,000 - $200,000',
-            avatar: '👨‍💻',
+            avatar: 'SS',
             traits: ['Visionary', 'Growth-obsessed', 'Budget-conscious', 'Hands-on'],
             goals: ['Scale quickly', 'Build brand awareness', 'Generate leads', 'Outpace competitors'],
             painPoints: ['Limited resources', 'Wearing many hats', 'Lack of marketing expertise', 'Need fast results'],
@@ -40,7 +41,7 @@ function BuyerPersonasPage({ onBack }) {
             role: 'VP of Marketing',
             age: '40-50',
             income: '$150,000 - $250,000',
-            avatar: '👩‍💼',
+            avatar: 'EL',
             traits: ['Strategic thinker', 'Risk-averse', 'Team-oriented', 'Process-driven'],
             goals: ['Drive brand consistency', 'Manage large campaigns', 'Demonstrate leadership value', 'Integrate with existing stack'],
             painPoints: ['Complex approval processes', 'Multiple stakeholders', 'Legacy systems', 'Security concerns'],
@@ -63,7 +64,7 @@ function BuyerPersonasPage({ onBack }) {
         <div className="generator-page">
             <div className="generator-header-section">
                 <div className="generator-title-row">
-                    <h1>👥 Buyer Personas</h1>
+                    <h1><UsersIcon size={24} /> Buyer Personas</h1>
                     <span className="generator-badge active">Active</span>
                 </div>
                 <p className="generator-description">

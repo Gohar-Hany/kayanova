@@ -1,5 +1,10 @@
 import { useState } from 'react'
 import { analyzeFacebookCompetitor } from '../../services/api'
+import {
+    SearchIcon, BoltIcon, ClockIcon, BarChartIcon, SuccessIcon, ErrorIcon,
+    RocketIcon, StarIcon, LightbulbIcon, TrendingUpIcon, PaletteIcon,
+    TargetIcon, ChevronDownIcon, ChevronUpIcon, ShieldIcon, WarningIcon, CheckIcon
+} from '../Icons'
 
 function CompetitorScannerSection() {
     const [url, setUrl] = useState('')
@@ -80,11 +85,11 @@ function CompetitorScannerSection() {
             case 'idle':
                 return (
                     <div className="competitor-status competitor-status-idle">
-                        <span>⚡</span> Free analysis
+                        <span><BoltIcon size={14} /></span> Free analysis
                         <span className="status-divider">•</span>
-                        <span>⏱️</span> Takes ~2-3 minutes
+                        <span><ClockIcon size={14} /></span> Takes ~2-3 minutes
                         <span className="status-divider">•</span>
-                        <span>📊</span> Detailed insights
+                        <span><BarChartIcon size={14} /></span> Detailed insights
                     </div>
                 )
             case 'processing':
@@ -97,13 +102,13 @@ function CompetitorScannerSection() {
             case 'success':
                 return (
                     <div className="competitor-status competitor-status-success">
-                        <span>✅</span> Analysis complete! View results below
+                        <span><SuccessIcon size={16} /></span> Analysis complete! View results below
                     </div>
                 )
             case 'error':
                 return (
                     <div className="competitor-status competitor-status-error">
-                        <span>❌</span> {error}
+                        <span><ErrorIcon size={16} /></span> {error}
                     </div>
                 )
             default:
@@ -144,7 +149,7 @@ function CompetitorScannerSection() {
             <div className="competitor-results">
                 {/* Overview Cards */}
                 <div className="competitor-results-header">
-                    <h3>✅ Analysis Complete</h3>
+                    <h3><CheckIcon size={16} /> Analysis Complete</h3>
                     <button className="btn-new-analysis" onClick={handleReset}>
                         New Analysis
                     </button>
@@ -153,21 +158,21 @@ function CompetitorScannerSection() {
                 {/* Metric Cards */}
                 <div className="competitor-metrics-grid">
                     <div className="competitor-metric-card">
-                        <span className="metric-icon">📊</span>
+                        <span className="metric-icon"><BarChartIcon size={22} /></span>
                         <div className="metric-content">
                             <span className="metric-value">{engagement_analysis?.avg_engagement_rate || 'N/A'}</span>
                             <span className="metric-label">Engagement Rate</span>
                         </div>
                     </div>
                     <div className="competitor-metric-card">
-                        <span className="metric-icon">🎨</span>
+                        <span className="metric-icon"><StarIcon size={22} /></span>
                         <div className="metric-content">
                             <span className="metric-value">{brand_identity_assessment?.consistency_score || key_metrics?.brand_consistency_score || 'N/A'}/10</span>
                             <span className="metric-label">Brand Consistency</span>
                         </div>
                     </div>
                     <div className="competitor-metric-card">
-                        <span className="metric-icon">💡</span>
+                        <span className="metric-icon"><LightbulbIcon size={22} /></span>
                         <div className="metric-content">
                             <span className="metric-value">{visual_design_audit?.effectiveness_score || key_metrics?.visual_quality_score || 'N/A'}/10</span>
                             <span className="metric-label">Visual Quality</span>
@@ -183,10 +188,12 @@ function CompetitorScannerSection() {
                             onClick={() => toggleSection('overview')}
                         >
                             <div className="section-title-left">
-                                <span className="section-icon">📈</span>
+                                <span className="section-icon"><TrendingUpIcon size={18} /></span>
                                 <span>Executive Summary</span>
                             </div>
-                            <span className={`section-toggle ${expandedSections.overview ? 'expanded' : ''}`}>▼</span>
+                            <span className={`section-toggle ${expandedSections.overview ? 'expanded' : ''}`}>
+                                {expandedSections.overview ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                            </span>
                         </button>
                         {expandedSections.overview && (
                             <div className="competitor-section-content">
@@ -204,10 +211,12 @@ function CompetitorScannerSection() {
                             onClick={() => toggleSection('visual')}
                         >
                             <div className="section-title-left">
-                                <span className="section-icon">🎨</span>
-                                <span>Visual Identity & Brand</span>
+                                <span className="section-icon"><PaletteIcon size={18} /></span>
+                                <span>Visual Identity &amp; Brand</span>
                             </div>
-                            <span className={`section-toggle ${expandedSections.visual ? 'expanded' : ''}`}>▼</span>
+                            <span className={`section-toggle ${expandedSections.visual ? 'expanded' : ''}`}>
+                                {expandedSections.visual ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                            </span>
                         </button>
                         {expandedSections.visual && (
                             <div className="competitor-section-content">
@@ -250,16 +259,18 @@ function CompetitorScannerSection() {
                             onClick={() => toggleSection('swot')}
                         >
                             <div className="section-title-left">
-                                <span className="section-icon">📊</span>
+                                <span className="section-icon"><BarChartIcon size={18} /></span>
                                 <span>SWOT Analysis</span>
                             </div>
-                            <span className={`section-toggle ${expandedSections.swot ? 'expanded' : ''}`}>▼</span>
+                            <span className={`section-toggle ${expandedSections.swot ? 'expanded' : ''}`}>
+                                {expandedSections.swot ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                            </span>
                         </button>
                         {expandedSections.swot && (
                             <div className="competitor-section-content">
                                 <div className="swot-grid">
                                     <div className="swot-card swot-strengths">
-                                        <h4>💪 Strengths</h4>
+                                        <h4><RocketIcon size={16} /> Strengths</h4>
                                         <ul>
                                             {swot_analysis.strengths?.map((item, i) => (
                                                 <li key={i}>{item}</li>
@@ -267,7 +278,7 @@ function CompetitorScannerSection() {
                                         </ul>
                                     </div>
                                     <div className="swot-card swot-weaknesses">
-                                        <h4>⚠️ Weaknesses</h4>
+                                        <h4><WarningIcon size={16} /> Weaknesses</h4>
                                         <ul>
                                             {swot_analysis.weaknesses?.map((item, i) => (
                                                 <li key={i}>{item}</li>
@@ -275,7 +286,7 @@ function CompetitorScannerSection() {
                                         </ul>
                                     </div>
                                     <div className="swot-card swot-opportunities">
-                                        <h4>🚀 Opportunities</h4>
+                                        <h4><LightbulbIcon size={16} /> Opportunities</h4>
                                         <ul>
                                             {swot_analysis.opportunities?.map((item, i) => (
                                                 <li key={i}>{item}</li>
@@ -283,7 +294,7 @@ function CompetitorScannerSection() {
                                         </ul>
                                     </div>
                                     <div className="swot-card swot-threats">
-                                        <h4>🛡️ Threats</h4>
+                                        <h4><ShieldIcon size={16} /> Threats</h4>
                                         <ul>
                                             {swot_analysis.threats?.map((item, i) => (
                                                 <li key={i}>{item}</li>
@@ -304,11 +315,13 @@ function CompetitorScannerSection() {
                             onClick={() => toggleSection('recommendations')}
                         >
                             <div className="section-title-left">
-                                <span className="section-icon">🎯</span>
+                                <span className="section-icon"><TargetIcon size={18} /></span>
                                 <span>Strategic Recommendations</span>
                                 <span className="section-count">{strategic_recommendations.length}</span>
                             </div>
-                            <span className={`section-toggle ${expandedSections.recommendations ? 'expanded' : ''}`}>▼</span>
+                            <span className={`section-toggle ${expandedSections.recommendations ? 'expanded' : ''}`}>
+                                {expandedSections.recommendations ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                            </span>
                         </button>
                         {expandedSections.recommendations && (
                             <div className="competitor-section-content">
@@ -334,7 +347,7 @@ function CompetitorScannerSection() {
                 {content_strategy_breakdown && (
                     <div className="competitor-insights-banner">
                         <div className="insights-section">
-                            <h4>✅ What's Working</h4>
+                            <h4><SuccessIcon size={16} /> What's Working</h4>
                             <ul>
                                 {content_strategy_breakdown.whats_working?.slice(0, 3).map((item, i) => (
                                     <li key={i}>{item}</li>
@@ -342,7 +355,7 @@ function CompetitorScannerSection() {
                             </ul>
                         </div>
                         <div className="insights-section">
-                            <h4>⚠️ Areas to Improve</h4>
+                            <h4><WarningIcon size={16} /> Areas to Improve</h4>
                             <ul>
                                 {content_strategy_breakdown.whats_not_working?.slice(0, 3).map((item, i) => (
                                     <li key={i}>{item}</li>
@@ -364,7 +377,7 @@ function CompetitorScannerSection() {
                 {/* Header */}
                 <div className="competitor-scanner-header">
                     <div className="scanner-title-wrap">
-                        <span className="scanner-icon">🔍</span>
+                        <span className="scanner-icon"><SearchIcon size={22} /></span>
                         <div>
                             <h2 className="scanner-title">Competitor Intelligence Scanner</h2>
                             <p className="scanner-subtitle">
@@ -404,7 +417,7 @@ function CompetitorScannerSection() {
                                 </>
                             ) : (
                                 <>
-                                    <span>🚀</span>
+                                    <span><RocketIcon size={16} /></span>
                                     <span>Analyze Competitor</span>
                                 </>
                             )}

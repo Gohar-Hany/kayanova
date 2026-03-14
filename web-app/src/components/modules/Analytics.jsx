@@ -1,9 +1,13 @@
+import {
+    TrendingDownIcon, BarChartIcon, BoltIcon, TrendingUpIcon, TargetIcon, BellIcon
+} from '../Icons'
+
 function Analytics() {
     return (
         <div className="coming-soon-module">
             <div className="coming-soon-header">
-                <div className="coming-soon-icon">📉</div>
-                <h2 className="coming-soon-title">Analytics & Insights</h2>
+                <div className="coming-soon-icon"><TrendingDownIcon size={36} /></div>
+                <h2 className="coming-soon-title">Analytics &amp; Insights</h2>
                 <span className="coming-soon-badge">Coming Soon</span>
             </div>
             <p className="coming-soon-description">
@@ -16,19 +20,19 @@ function Analytics() {
                 <h4 className="preview-title">Analytics features:</h4>
                 <div className="preview-features">
                     <div className="preview-feature">
-                        <span className="preview-feature-icon">📊</span>
+                        <span className="preview-feature-icon"><BarChartIcon size={18} /></span>
                         <span>Performance Dashboards</span>
                     </div>
                     <div className="preview-feature">
-                        <span className="preview-feature-icon">🔮</span>
+                        <span className="preview-feature-icon"><BoltIcon size={18} /></span>
                         <span>Predictive Insights</span>
                     </div>
                     <div className="preview-feature">
-                        <span className="preview-feature-icon">📈</span>
+                        <span className="preview-feature-icon"><TrendingUpIcon size={18} /></span>
                         <span>ROI Tracking</span>
                     </div>
                     <div className="preview-feature">
-                        <span className="preview-feature-icon">🎯</span>
+                        <span className="preview-feature-icon"><TargetIcon size={18} /></span>
                         <span>Goal Achievement</span>
                     </div>
                 </div>
@@ -57,7 +61,7 @@ function Analytics() {
             </div>
 
             <button className="coming-soon-notify-btn">
-                <span>🔔</span> Notify Me When Ready
+                <span><BellIcon size={16} /></span> Notify Me When Ready
             </button>
         </div>
     )

@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react'
 import { getContentCalendar } from '../../services/api'
+import {
+    WarningIcon, CalendarIcon, BarChartIcon, FileIcon, PaletteIcon,
+    LinkIcon, MicIcon, CloseIcon
+} from '../Icons'
 
 function ContentCalendarPage({ onBack, userData }) {
     const [loading, setLoading] = useState(true)
@@ -38,14 +42,15 @@ function ContentCalendarPage({ onBack, userData }) {
     }) || []
 
     // Platform icon mapping
-    const platformIcons = {
-        'LinkedIn': '💼',
-        'X': '𝕏',
-        'Twitter': '🐦',
-        'Instagram': '📸',
-        'TikTok': '🎵',
-        'Facebook': '📘',
-        'YouTube': '▶️'
+    // Platform text labels (these are platform brand identifiers, not UI icons)
+    const platformLabels = {
+        'LinkedIn': 'in',
+        'X': 'X',
+        'Twitter': 'tw',
+        'Instagram': 'ig',
+        'TikTok': 'tt',
+        'Facebook': 'fb',
+        'YouTube': 'yt'
     }
 
     // Format color mapping
@@ -57,7 +62,7 @@ function ContentCalendarPage({ onBack, userData }) {
         'Video': '#ef4444'
     }
 
-    const getPlatformIcon = (platform) => platformIcons[platform] || '📱'
+    const getPlatformIcon = (platform) => platformLabels[platform] || platform?.charAt(0) || '?'
     const getFormatColor = (format) => formatColors[format] || '#6b7280'
 
     if (loading) {
@@ -76,7 +81,7 @@ function ContentCalendarPage({ onBack, userData }) {
         return (
             <div className="service-page">
                 <div className="page-error">
-                    <div className="error-icon">⚠️</div>
+                    <div className="error-icon"><WarningIcon size={36} /></div>
                     <h2>Calendar Generation Failed</h2>
                     <p>{error}</p>
                     <div className="error-actions">
@@ -94,7 +99,7 @@ function ContentCalendarPage({ onBack, userData }) {
                 <button className="back-btn" onClick={onBack}>← Back to Services</button>
                 <div className="page-title-section">
                     <h1 className="page-title">
-                        <span className="page-icon">📅</span>
+                        <span className="page-icon"><CalendarIcon size={24} /></span>
                         Content Calendar
                     </h1>
                     <p className="page-subtitle">
@@ -140,13 +145,13 @@ function ContentCalendarPage({ onBack, userData }) {
                         className={`view-btn ${viewMode === 'table' ? 'active' : ''}`}
                         onClick={() => setViewMode('table')}
                     >
-                        📋 Table
+                        <BarChartIcon size={14} /> Table
                     </button>
                     <button
                         className={`view-btn ${viewMode === 'cards' ? 'active' : ''}`}
                         onClick={() => setViewMode('cards')}
                     >
-                        🗂️ Cards
+                        <FileIcon size={14} /> Cards
                     </button>
                 </div>
             </div>
@@ -211,7 +216,7 @@ function ContentCalendarPage({ onBack, userData }) {
                                                 document.getElementById(`modal-${idx}`)?.showModal()
                                             }}
                                         >
-                                            View Details
+                                            View Details →
                                         </button>
 
                                         {/* Detail Modal */}
@@ -222,39 +227,40 @@ function ContentCalendarPage({ onBack, userData }) {
                                                     <button
                                                         className="modal-close"
                                                         onClick={() => document.getElementById(`modal-${idx}`)?.close()}
+                                                        aria-label="Close"
                                                     >
-                                                        ✕
+                                                        <CloseIcon size={16} />
                                                     </button>
                                                 </div>
 
                                                 <div className="modal-section">
-                                                    <h4>🎣 The Hook</h4>
+                                                    <h4>The Hook</h4>
                                                     <p className="modal-hook">{item.The_Hook}</p>
                                                 </div>
 
                                                 <div className="modal-section">
-                                                    <h4>📝 Full Caption</h4>
+                                                    <h4>Full Caption</h4>
                                                     <p className="modal-caption">{item.Full_Caption}</p>
                                                 </div>
 
                                                 <div className="modal-section">
-                                                    <h4>🏛️ Authority Pillar</h4>
+                                                    <h4>Authority Pillar</h4>
                                                     <p>{item.Authority_Pillar}</p>
                                                 </div>
 
                                                 <div className="modal-section">
-                                                    <h4>📌 Visual Text Overlay</h4>
+                                                    <h4>Visual Text Overlay</h4>
                                                     <p className="visual-overlay">{item.Visual_Text_Overlay}</p>
                                                 </div>
 
                                                 <div className="modal-section">
-                                                    <h4>🎨 Art Direction</h4>
+                                                    <h4><PaletteIcon size={14} /> Art Direction</h4>
                                                     <p className="art-direction">{item.Art_Direction_Prompt}</p>
                                                 </div>
 
                                                 {item['Design URL'] && (
                                                     <div className="modal-section">
-                                                        <h4>🔗 Design Reference</h4>
+                                                        <h4><LinkIcon size={14} /> Design Reference</h4>
                                                         <a
                                                             href={item['Design URL']}
                                                             target="_blank"
@@ -300,12 +306,12 @@ function ContentCalendarPage({ onBack, userData }) {
                             </div>
 
                             <div className="card-hook">
-                                <span className="hook-label">🎣 Hook:</span>
+                                <span className="hook-label">Hook:</span>
                                 <p>{item.The_Hook}</p>
                             </div>
 
                             <div className="card-overlay">
-                                <span className="overlay-label">📌 Visual:</span>
+                                <span className="overlay-label">Visual:</span>
                                 <p>{item.Visual_Text_Overlay}</p>
                             </div>
 
@@ -328,29 +334,30 @@ function ContentCalendarPage({ onBack, userData }) {
                                         <button
                                             className="modal-close"
                                             onClick={() => document.getElementById(`modal-card-${idx}`)?.close()}
+                                            aria-label="Close"
                                         >
-                                            ✕
+                                            <CloseIcon size={16} />
                                         </button>
                                     </div>
 
                                     <div className="modal-section">
-                                        <h4>🎣 The Hook</h4>
+                                        <h4>The Hook</h4>
                                         <p className="modal-hook">{item.The_Hook}</p>
                                     </div>
 
                                     <div className="modal-section">
-                                        <h4>📝 Full Caption</h4>
+                                        <h4>Full Caption</h4>
                                         <p className="modal-caption">{item.Full_Caption}</p>
                                     </div>
 
                                     <div className="modal-section">
-                                        <h4>🎨 Art Direction</h4>
+                                        <h4><PaletteIcon size={14} /> Art Direction</h4>
                                         <p className="art-direction">{item.Art_Direction_Prompt}</p>
                                     </div>
 
                                     {item['Design URL'] && (
                                         <div className="modal-section">
-                                            <h4>🔗 Design Reference</h4>
+                                            <h4><LinkIcon size={14} /> Design Reference</h4>
                                             <a
                                                 href={item['Design URL']}
                                                 target="_blank"

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ShareIcon } from '../Icons'
 
 function SocialScriptsPage({ onBack }) {
     const [showResults, setShowResults] = useState(true)
@@ -8,7 +9,7 @@ function SocialScriptsPage({ onBack }) {
     const socialContent = {
         linkedin: {
             platform: 'LinkedIn',
-            icon: '💼',
+            icon: 'in',
             posts: [
                 {
                     type: 'Thought Leadership',
@@ -80,7 +81,7 @@ Link in comments to try it free.
         },
         twitter: {
             platform: 'Twitter/X',
-            icon: '🐦',
+            icon: 'X',
             posts: [
                 {
                     type: 'Thread Starter',
@@ -127,7 +128,7 @@ The tools exist. Most people just don't know about them.
         },
         instagram: {
             platform: 'Instagram',
-            icon: '📸',
+            icon: 'ig',
             posts: [
                 {
                     type: 'Carousel Post',
@@ -162,7 +163,7 @@ Drop a 🔥 if you're ready for a better way.`,
         <div className="generator-page">
             <div className="generator-header-section">
                 <div className="generator-title-row">
-                    <h1>📱 Social Scripts</h1>
+                    <h1><ShareIcon size={22} /> Social Scripts</h1>
                     <span className="generator-badge active">Active</span>
                 </div>
                 <p className="generator-description">

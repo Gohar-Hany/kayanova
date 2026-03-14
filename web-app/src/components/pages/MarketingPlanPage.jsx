@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react'
 import { getMarketingPlan } from '../../services/api'
+import {
+    WarningIcon, TargetIcon, UsersIcon, BarChartIcon, ShieldIcon,
+    TrendingUpIcon, SparklesIcon, BrainIcon, StarIcon, BoltIcon
+} from '../Icons'
 
 function MarketingPlanPage({ onBack, userData }) {
     const [loading, setLoading] = useState(true)
@@ -75,11 +79,11 @@ function MarketingPlanPage({ onBack, userData }) {
     }
 
     const tabs = [
-        { id: 'strategy', label: 'Strategy & Vision', icon: '🎯' },
-        { id: 'targeting', label: 'ICP & Pain Points', icon: '👥' },
-        { id: 'tactics', label: 'Funnel Tactics', icon: '📊' },
-        { id: 'competition', label: 'Competitor Attack', icon: '⚔️' },
-        { id: 'metrics', label: 'Metrics & Budget', icon: '📈' }
+        { id: 'strategy', label: 'Strategy & Vision', icon: <TargetIcon size={16} /> },
+        { id: 'targeting', label: 'ICP & Pain Points', icon: <UsersIcon size={16} /> },
+        { id: 'tactics', label: 'Funnel Tactics', icon: <BarChartIcon size={16} /> },
+        { id: 'competition', label: 'Competitor Attack', icon: <ShieldIcon size={16} /> },
+        { id: 'metrics', label: 'Metrics & Budget', icon: <TrendingUpIcon size={16} /> }
     ]
 
     if (loading) {
@@ -98,7 +102,7 @@ function MarketingPlanPage({ onBack, userData }) {
         return (
             <div className="service-page">
                 <div className="page-error">
-                    <div className="error-icon">⚠️</div>
+                    <div className="error-icon"><WarningIcon size={36} /></div>
                     <h2>Plan Generation Failed</h2>
                     <p>{error}</p>
                     <div className="error-actions">
@@ -116,7 +120,7 @@ function MarketingPlanPage({ onBack, userData }) {
                 <button className="back-btn" onClick={onBack}>← Back to Services</button>
                 <div className="page-title-section">
                     <h1 className="page-title">
-                        <span className="page-icon">📈</span>
+                        <span className="page-icon"><TrendingUpIcon size={24} /></span>
                         Marketing Plan
                     </h1>
                     <p className="page-subtitle">
@@ -128,7 +132,7 @@ function MarketingPlanPage({ onBack, userData }) {
             {/* UVP Highlight */}
             {data?.Unique_Value_Proposition && (
                 <div className="uvp-banner">
-                    <div className="uvp-icon">💎</div>
+                    <div className="uvp-icon"><SparklesIcon size={24} /></div>
                     <div className="uvp-content">
                         <span className="uvp-label">Unique Value Proposition</span>
                         <p className="uvp-text">{data.Unique_Value_Proposition}</p>
@@ -154,16 +158,16 @@ function MarketingPlanPage({ onBack, userData }) {
             <div className="plan-content">
                 {activeTab === 'strategy' && (
                     <div className="tab-content">
-                        {renderSection(data?.Strategy_Core_Vision, 'Strategy Core Vision', '🎯')}
-                        {renderSection(data?.Brand_Identity_Voice, 'Brand Identity & Voice', '🎭')}
-                        {renderSection(data?.['SWOT_Analysis_Matrix'], 'SWOT Analysis', '📊')}
+                        {renderSection(data?.Strategy_Core_Vision, 'Strategy Core Vision', <TargetIcon size={18} />)}
+                        {renderSection(data?.Brand_Identity_Voice, 'Brand Identity & Voice', <SparklesIcon size={18} />)}
+                        {renderSection(data?.['SWOT_Analysis_Matrix'], 'SWOT Analysis', <BarChartIcon size={18} />)}
                     </div>
                 )}
 
                 {activeTab === 'targeting' && (
                     <div className="tab-content">
-                        {renderSection(data?.ICP_Deep_Dive, 'Ideal Customer Profile (ICP)', '👥')}
-                        {renderSection(data?.Psychological_Pain_Points, 'Psychological Pain Points', '🧠')}
+                        {renderSection(data?.ICP_Deep_Dive, 'Ideal Customer Profile (ICP)', <UsersIcon size={18} />)}
+                        {renderSection(data?.Psychological_Pain_Points, 'Psychological Pain Points', <BrainIcon size={18} />)}
                     </div>
                 )}
 
@@ -203,15 +207,15 @@ function MarketingPlanPage({ onBack, userData }) {
 
                 {activeTab === 'competition' && (
                     <div className="tab-content">
-                        {renderSection(data?.Competitor_Attack_Plan, 'Competitor Attack Plan', '⚔️')}
-                        {renderSection(data?.Risk_Mitigation_Plan, 'Risk Mitigation Plan', '🛡️')}
+                        {renderSection(data?.Competitor_Attack_Plan, 'Competitor Attack Plan', <ShieldIcon size={18} />)}
+                        {renderSection(data?.Risk_Mitigation_Plan, 'Risk Mitigation Plan', <WarningIcon size={18} />)}
                     </div>
                 )}
 
                 {activeTab === 'metrics' && (
                     <div className="tab-content">
-                        {renderSection(data?.North_Star_Metrics, 'North Star Metrics', '⭐')}
-                        {renderSection(data?.Budget_Allocation_Ratio, 'Budget Allocation', '💰')}
+                        {renderSection(data?.North_Star_Metrics, 'North Star Metrics', <StarIcon size={18} />)}
+                        {renderSection(data?.Budget_Allocation_Ratio, 'Budget Allocation', <BoltIcon size={18} />)}
                     </div>
                 )}
             </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { GlobeIcon, TargetIcon, BoltIcon, TrendingUpIcon } from '../Icons'
 
 function WebsiteCopyPage({ onBack }) {
     const [showResults, setShowResults] = useState(true)
@@ -15,17 +16,17 @@ function WebsiteCopyPage({ onBack }) {
             {
                 title: 'AI-Powered Strategy',
                 description: 'Get data-driven marketing strategies in minutes, not weeks. Our AI analyzes your market, competitors, and audience to create winning plans.',
-                icon: '🎯'
+                icon: <TargetIcon size={22} />
             },
             {
                 title: 'Automated Execution',
                 description: 'Campaigns that run themselves. From content creation to publishing, our system handles the heavy lifting 24/7.',
-                icon: '⚡'
+                icon: <BoltIcon size={22} />
             },
             {
                 title: 'Intelligent Optimization',
                 description: 'Continuous A/B testing and optimization powered by machine learning. Your marketing gets smarter every day.',
-                icon: '📈'
+                icon: <TrendingUpIcon size={22} />
             }
         ],
         benefits: [
@@ -80,7 +81,7 @@ Kayanova unifies everything into one intelligent system. Your entire marketing o
         <div className="generator-page">
             <div className="generator-header-section">
                 <div className="generator-title-row">
-                    <h1>🌐 Website Copy</h1>
+                    <h1><GlobeIcon size={22} /> Website Copy</h1>
                     <span className="generator-badge active">Active</span>
                 </div>
                 <p className="generator-description">
@@ -162,7 +163,7 @@ Kayanova unifies everything into one intelligent system. Your entire marketing o
                                             <strong>{section.testimonial.author}</strong>
                                             <span>{section.testimonial.role}</span>
                                         </div>
-                                        <div className="testimonial-result">📈 {section.testimonial.result}</div>
+                                        <div className="testimonial-result"><TrendingUpIcon size={14} /> {section.testimonial.result}</div>
                                     </div>
                                 )}
                                 <button className="copy-btn">Copy Section</button>

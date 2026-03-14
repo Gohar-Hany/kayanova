@@ -1,20 +1,22 @@
+import { CalendarIcon, ShareIcon, FileIcon } from '../Icons'
+
 function ContentCalendarDisplay({ data }) {
     const calendar = data?.content_calendar || data?.calendar || data
 
-    // Platform icons mapping
+    // Platform abbreviation map
     const platformIcons = {
-        'facebook': '📘',
-        'instagram': '📸',
-        'twitter': '🐦',
-        'x': '𝕏',
-        'linkedin': '💼',
-        'tiktok': '🎵',
-        'youtube': '▶️',
-        'blog': '📝',
-        'email': '📧',
-        'newsletter': '📬',
-        'website': '🌐',
-        'pinterest': '📌'
+        'facebook': 'fb',
+        'instagram': 'ig',
+        'twitter': 'tw',
+        'x': 'X',
+        'linkedin': 'in',
+        'tiktok': 'tt',
+        'youtube': 'yt',
+        'blog': 'bl',
+        'email': 'em',
+        'newsletter': 'nl',
+        'website': 'web',
+        'pinterest': 'pin'
     }
 
     // Content type colors
@@ -32,9 +34,9 @@ function ContentCalendarDisplay({ data }) {
     }
 
     const getPlatformIcon = (platform) => {
-        if (!platform) return '📱'
+        if (!platform) return <ShareIcon size={14} />
         const key = platform.toLowerCase()
-        return platformIcons[key] || '📱'
+        return platformIcons[key] || platform.charAt(0).toUpperCase()
     }
 
     const getContentTypeColor = (type) => {
@@ -181,7 +183,7 @@ function ContentCalendarDisplay({ data }) {
     return (
         <div className="content-calendar-display">
             <div className="calendar-header">
-                <h2 className="calendar-title">📅 Content Calendar</h2>
+                <h2 className="calendar-title"><CalendarIcon size={20} /> Content Calendar</h2>
                 <p className="calendar-subtitle">
                     {items.length} scheduled content pieces
                 </p>
@@ -198,7 +200,7 @@ function ContentCalendarDisplay({ data }) {
                 </>
             ) : (
                 <div className="calendar-empty">
-                    <div className="empty-icon">📭</div>
+                    <div className="empty-icon"><FileIcon size={36} /></div>
                     <p>No calendar data available</p>
                     <p className="empty-hint">The AI is still processing or the format is unrecognized</p>
                     <pre className="debug-data">{JSON.stringify(calendar, null, 2)}</pre>

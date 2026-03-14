@@ -1,5 +1,9 @@
 import { useState, useCallback } from 'react'
 import { submitWebsiteData } from '../services/api'
+import {
+    CloseIcon, RocketIcon, GlobeIcon, FileIcon, UploadIcon,
+    WarningIcon, SearchIcon, ArrowRightIcon, CheckIcon
+} from './Icons'
 
 function TransformModal({ isOpen, onClose, onSuccess }) {
     const [url, setUrl] = useState('')
@@ -82,8 +86,8 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
             <div className="transform-modal">
                 {/* Close Button */}
                 {!isLoading && (
-                    <button className="modal-close-btn" onClick={handleClose}>
-                        ✕
+                    <button className="modal-close-btn" onClick={handleClose} aria-label="Close modal">
+                        <CloseIcon size={18} />
                     </button>
                 )}
 
@@ -92,7 +96,7 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                     <div className="transform-loading">
                         <div className="loading-animation">
                             <div className="loading-spinner-ring"></div>
-                            <div className="loading-icon">🔍</div>
+                            <div className="loading-icon"><SearchIcon size={28} /></div>
                         </div>
                         <h2 className="loading-title">Analyzing your website...</h2>
                         <p className="loading-subtitle">Performing market research...</p>
@@ -115,7 +119,7 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                     /* Input Form */
                     <>
                         <div className="transform-modal-header">
-                            <div className="modal-header-icon">🚀</div>
+                            <div className="modal-header-icon"><RocketIcon size={28} /></div>
                             <h2 className="modal-title">Start Your Transformation</h2>
                             <p className="modal-subtitle">
                                 Provide your website URL or upload documents for AI-powered analysis
@@ -126,7 +130,7 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                             {/* URL Input */}
                             <div className="transform-input-section">
                                 <label className="input-label">
-                                    <span className="label-icon">🌐</span>
+                                    <span className="label-icon"><GlobeIcon size={16} /></span>
                                     Website URL
                                 </label>
                                 <div className="url-input-wrapper">
@@ -138,7 +142,7 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                                         value={url}
                                         onChange={handleUrlChange}
                                     />
-                                    {url && <span className="input-check">✓</span>}
+                                    {url && <span className="input-check"><CheckIcon size={14} /></span>}
                                 </div>
                             </div>
 
@@ -150,7 +154,7 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                             {/* File Upload */}
                             <div className="transform-input-section">
                                 <label className="input-label">
-                                    <span className="label-icon">📄</span>
+                                    <span className="label-icon"><FileIcon size={16} /></span>
                                     Upload Documents
                                 </label>
                                 <div
@@ -169,9 +173,9 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                                     />
                                     {!file ? (
                                         <>
-                                            <div className="upload-icon-large">📁</div>
+                                            <div className="upload-icon-large"><UploadIcon size={36} /></div>
                                             <p className="upload-text">
-                                                Drag & drop your file here, or <span className="upload-link">browse</span>
+                                                Drag &amp; drop your file here, or <span className="upload-link">browse</span>
                                             </p>
                                             <p className="upload-hint">
                                                 Supports PDF, Word, images, and text files
@@ -179,13 +183,14 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                                         </>
                                     ) : (
                                         <div className="file-info">
-                                            <span className="file-icon">📎</span>
+                                            <span className="file-icon"><FileIcon size={18} /></span>
                                             <span className="file-name">{file.name}</span>
                                             <button
                                                 className="file-remove-btn"
                                                 onClick={(e) => { e.stopPropagation(); removeFile(); }}
+                                                aria-label="Remove file"
                                             >
-                                                ✕
+                                                <CloseIcon size={14} />
                                             </button>
                                         </div>
                                     )}
@@ -195,7 +200,7 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                             {/* Error Message */}
                             {error && (
                                 <div className="transform-error">
-                                    <span className="error-icon">⚠️</span>
+                                    <span className="error-icon"><WarningIcon size={16} /></span>
                                     <span className="error-text">{error}</span>
                                 </div>
                             )}
@@ -211,7 +216,7 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                                 disabled={!url && !file}
                             >
                                 <span>Start Analysis</span>
-                                <span className="btn-arrow">→</span>
+                                <span className="btn-arrow"><ArrowRightIcon /></span>
                             </button>
                         </div>
                     </>

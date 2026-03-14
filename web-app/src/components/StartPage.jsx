@@ -1,4 +1,8 @@
 import { useState, useCallback } from 'react'
+import {
+    GlobeIcon, LinkIcon, CheckIcon, FileIcon, UploadIcon,
+    CloseIcon, ArrowRightIcon
+} from './Icons'
 
 function StartPage({ onContinue, onSkip, userData, setUserData }) {
     const [isDragOver, setIsDragOver] = useState(false)
@@ -70,14 +74,14 @@ function StartPage({ onContinue, onSkip, userData, setUserData }) {
                     {/* URL Input Card */}
                     <div className="input-card">
                         <div className="input-card-header">
-                            <div className="input-card-icon">🌐</div>
+                            <div className="input-card-icon"><GlobeIcon size={22} /></div>
                             <div>
                                 <h2 className="input-card-title">Website URL</h2>
                                 <p className="input-card-description">Enter your website for targeted analysis</p>
                             </div>
                         </div>
                         <div className="url-input-wrapper">
-                            <span className="url-icon">🔗</span>
+                            <span className="url-icon"><LinkIcon size={16} /></span>
                             <input
                                 type="url"
                                 className="url-input"
@@ -86,7 +90,7 @@ function StartPage({ onContinue, onSkip, userData, setUserData }) {
                                 onChange={handleUrlChange}
                             />
                             {userData.url && (
-                                <span className="url-check">✓</span>
+                                <span className="url-check"><CheckIcon size={14} /></span>
                             )}
                         </div>
                     </div>
@@ -98,7 +102,7 @@ function StartPage({ onContinue, onSkip, userData, setUserData }) {
                     {/* File Upload Card */}
                     <div className="input-card">
                         <div className="input-card-header">
-                            <div className="input-card-icon">📄</div>
+                            <div className="input-card-icon"><FileIcon size={22} /></div>
                             <div>
                                 <h2 className="input-card-title">Upload Documents</h2>
                                 <p className="input-card-description">Upload business docs, marketing materials, etc.</p>
@@ -120,9 +124,9 @@ function StartPage({ onContinue, onSkip, userData, setUserData }) {
                             />
                             {!userData.file ? (
                                 <>
-                                    <div className="upload-icon">📁</div>
+                                    <div className="upload-icon"><UploadIcon size={32} /></div>
                                     <p className="upload-text">
-                                        Drag & drop your file here, or click to browse
+                                        Drag &amp; drop your file here, or click to browse
                                     </p>
                                     <p className="upload-hint">
                                         Supports PDF, Word, and image files
@@ -130,13 +134,14 @@ function StartPage({ onContinue, onSkip, userData, setUserData }) {
                                 </>
                             ) : (
                                 <div className="file-info">
-                                    <span>📎</span>
+                                    <span><FileIcon size={18} /></span>
                                     <span className="file-name">{userData.file.name}</span>
                                     <button
                                         className="file-remove"
                                         onClick={(e) => { e.stopPropagation(); removeFile(); }}
+                                        aria-label="Remove file"
                                     >
-                                        ✕
+                                        <CloseIcon size={14} />
                                     </button>
                                 </div>
                             )}
@@ -157,7 +162,7 @@ function StartPage({ onContinue, onSkip, userData, setUserData }) {
                         onClick={onContinue}
                     >
                         {hasInput ? 'Continue with Data' : 'Continue'}
-                        <span className="btn-arrow">→</span>
+                        <span className="btn-arrow"><ArrowRightIcon /></span>
                     </button>
                 </div>
             </div>

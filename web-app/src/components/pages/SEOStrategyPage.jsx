@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { SeoIcon, TargetIcon, PencilIcon } from '../Icons'
 
 function SEOStrategyPage({ onBack }) {
     const [showResults, setShowResults] = useState(true)
@@ -65,7 +66,7 @@ function SEOStrategyPage({ onBack }) {
         <div className="generator-page">
             <div className="generator-header-section">
                 <div className="generator-title-row">
-                    <h1>🔎 SEO Strategy</h1>
+                    <h1><SeoIcon size={22} /> SEO Strategy</h1>
                     <span className="generator-badge active">Active</span>
                 </div>
                 <p className="generator-description">
@@ -162,8 +163,8 @@ function SEOStrategyPage({ onBack }) {
                                     <span className={`content-type ${content.priority.toLowerCase()}`}>{content.type}</span>
                                     <h4>{content.title}</h4>
                                     <div className="content-meta">
-                                        <span>🎯 {content.targetKeyword}</span>
-                                        <span>📝 {content.wordCount} words</span>
+                                        <span><TargetIcon size={14} /> {content.targetKeyword}</span>
+                                        <span><PencilIcon size={14} /> {content.wordCount} words</span>
                                     </div>
                                 </div>
                             ))}

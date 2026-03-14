@@ -1,4 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
+import {
+    ChatBotIcon, UserIcon, TrashIcon, SettingsIcon,
+    SearchIcon, TargetIcon, CalendarIcon, BarChartIcon,
+    SpinnerIcon, ArrowRightIcon
+} from '../Icons'
 
 function AIChat({ userData, onNavigate }) {
     const [messages, setMessages] = useState([
@@ -93,7 +98,7 @@ function AIChat({ userData, onNavigate }) {
         const responses = {
             competitor: {
                 title: 'Competitor Analysis Complete',
-                summary: 'I\'ve analyzed your top competitors and identified key insights about their positioning, strengths, and vulnerabilities.',
+                summary: "I've analyzed your top competitors and identified key insights about their positioning, strengths, and vulnerabilities.",
                 highlights: [
                     { label: 'Competitors Analyzed', value: '5' },
                     { label: 'Market Gaps Found', value: '3' },
@@ -129,7 +134,7 @@ function AIChat({ userData, onNavigate }) {
             },
             general: {
                 title: 'Analysis Complete',
-                summary: 'I\'ve processed your request and prepared a detailed response.',
+                summary: "I've processed your request and prepared a detailed response.",
                 highlights: [
                     { label: 'Insights', value: '12' },
                     { label: 'Recommendations', value: '5' },
@@ -140,12 +145,23 @@ function AIChat({ userData, onNavigate }) {
         return responses[type]
     }
 
+    const getOutputIcon = (outputType) => {
+        const icons = {
+            competitor: <SearchIcon size={18} />,
+            marketing: <TargetIcon size={18} />,
+            calendar: <CalendarIcon size={18} />,
+            report: <BarChartIcon size={18} />,
+            general: <BarChartIcon size={18} />,
+        }
+        return icons[outputType] || <BarChartIcon size={18} />
+    }
+
     const handleSuggestionClick = (suggestion) => {
         setInputValue(suggestion)
         inputRef.current?.focus()
     }
 
-    const handleKeyPress = (e) => {
+    const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault()
             handleSend()
@@ -163,7 +179,7 @@ function AIChat({ userData, onNavigate }) {
             {/* Chat Header */}
             <div className="chat-header">
                 <div className="chat-header-info">
-                    <div className="chat-avatar">🤖</div>
+                    <div className="chat-avatar"><ChatBotIcon size={22} /></div>
                     <div className="chat-header-text">
                         <h3>AI Command Center</h3>
                         <span className="chat-status">
@@ -173,8 +189,8 @@ function AIChat({ userData, onNavigate }) {
                     </div>
                 </div>
                 <div className="chat-header-actions">
-                    <button className="chat-action-btn" title="Clear chat">🗑️</button>
-                    <button className="chat-action-btn" title="Settings">⚙️</button>
+                    <button className="chat-action-btn" title="Clear chat" aria-label="Clear chat"><TrashIcon size={16} /></button>
+                    <button className="chat-action-btn" title="Settings" aria-label="Settings"><SettingsIcon size={16} /></button>
                 </div>
             </div>
 
@@ -183,20 +199,16 @@ function AIChat({ userData, onNavigate }) {
                 {messages.map((message) => (
                     <div key={message.id} className={`chat-message ${message.type}`}>
                         {message.type === 'ai' && (
-                            <div className="message-avatar">🤖</div>
+                            <div className="message-avatar"><ChatBotIcon size={18} /></div>
                         )}
                         <div className="message-content">
                             {message.outputType ? (
                                 // Structured output card
                                 <div className="output-card">
                                     <div className="output-card-header">
-                                        <span className="output-icon">
-                                            {message.outputType === 'competitor' ? '🔍' :
-                                                message.outputType === 'marketing' ? '🎯' :
-                                                    message.outputType === 'calendar' ? '📅' : '📊'}
-                                        </span>
+                                        <span className="output-icon">{getOutputIcon(message.outputType)}</span>
                                         <h4>{message.content.title}</h4>
-                                        <span className="output-credits">-{message.credits} ⚡</span>
+                                        <span className="output-credits">-{message.credits} credits</span>
                                     </div>
                                     <p className="output-summary">{message.content.summary}</p>
                                     <div className="output-highlights">
@@ -243,7 +255,7 @@ function AIChat({ userData, onNavigate }) {
                             </span>
                         </div>
                         {message.type === 'user' && (
-                            <div className="message-avatar user">👤</div>
+                            <div className="message-avatar user"><UserIcon size={18} /></div>
                         )}
                     </div>
                 ))}
@@ -251,7 +263,7 @@ function AIChat({ userData, onNavigate }) {
                 {/* Generation Progress */}
                 {isGenerating && generationProgress && (
                     <div className="chat-message ai">
-                        <div className="message-avatar">🤖</div>
+                        <div className="message-avatar"><ChatBotIcon size={18} /></div>
                         <div className="message-content">
                             <div className="generation-progress">
                                 <div className="progress-header">
@@ -286,7 +298,7 @@ function AIChat({ userData, onNavigate }) {
                         placeholder="Command your marketing... (e.g., 'Analyze competitors in the AI automation space')"
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
-                        onKeyPress={handleKeyPress}
+                        onKeyDown={handleKeyDown}
                         rows={1}
                         disabled={isGenerating}
                     />
@@ -294,8 +306,9 @@ function AIChat({ userData, onNavigate }) {
                         className={`chat-send-btn ${inputValue.trim() ? 'active' : ''}`}
                         onClick={handleSend}
                         disabled={!inputValue.trim() || isGenerating}
+                        aria-label="Send message"
                     >
-                        {isGenerating ? '⏳' : '→'}
+                        {isGenerating ? <SpinnerIcon size={18} /> : <ArrowRightIcon size={18} />}
                     </button>
                 </div>
                 <div className="chat-input-hints">

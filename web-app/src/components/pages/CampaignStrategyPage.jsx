@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { RocketIcon, CalendarIcon, BoltIcon, MegaphoneIcon } from '../Icons'
 
 function CampaignStrategyPage({ onBack }) {
     const [showResults, setShowResults] = useState(true)
@@ -59,7 +60,7 @@ function CampaignStrategyPage({ onBack }) {
         <div className="generator-page">
             <div className="generator-header-section">
                 <div className="generator-title-row">
-                    <h1>🚀 Campaign Strategy</h1>
+                    <h1><RocketIcon size={22} /> Campaign Strategy</h1>
                     <span className="generator-badge active">Active</span>
                 </div>
                 <p className="generator-description">
@@ -84,14 +85,14 @@ function CampaignStrategyPage({ onBack }) {
                         </div>
                         <div className="overview-row">
                             <div className="overview-item">
-                                <span className="overview-icon">📅</span>
+                                <span className="overview-icon"><CalendarIcon size={18} /></span>
                                 <div>
                                     <span className="overview-label">Duration</span>
                                     <span>{campaign.duration}</span>
                                 </div>
                             </div>
                             <div className="overview-item">
-                                <span className="overview-icon">💰</span>
+                                <span className="overview-icon"><BoltIcon size={18} /></span>
                                 <div>
                                     <span className="overview-label">Budget</span>
                                     <span>{campaign.budget}</span>
@@ -153,7 +154,7 @@ function CampaignStrategyPage({ onBack }) {
                         <div className="messages-list">
                             {campaign.keyMessages.map((msg, i) => (
                                 <div key={i} className="message-item">
-                                    <span className="message-icon">💬</span>
+                                    <span className="message-icon"><MegaphoneIcon size={16} /></span>
                                     <span>{msg}</span>
                                 </div>
                             ))}

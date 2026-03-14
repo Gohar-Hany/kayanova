@@ -1,4 +1,8 @@
 import { useState } from 'react'
+import {
+    DashboardIcon, ChatBotIcon, SettingsIcon, ExitIcon,
+    BellIcon, UserIcon, ArrowLeftIcon, BoltIcon
+} from '../Icons'
 
 function AppLayout({ children, currentModule, onModuleChange, onReturnHome, credits = 2500 }) {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
@@ -45,7 +49,7 @@ function AppLayout({ children, currentModule, onModuleChange, onReturnHome, cred
                         onClick={() => onModuleChange('dashboard')}
                         title="Dashboard"
                     >
-                        <span className="nav-item-icon">📊</span>
+                        <span className="nav-item-icon"><DashboardIcon /></span>
                         <span className="nav-item-label">Dashboard</span>
                     </button>
                     <button
@@ -53,7 +57,7 @@ function AppLayout({ children, currentModule, onModuleChange, onReturnHome, cred
                         onClick={() => onModuleChange('chat')}
                         title="AI Command Center"
                     >
-                        <span className="nav-item-icon">🤖</span>
+                        <span className="nav-item-icon"><ChatBotIcon /></span>
                         <span className="nav-item-label">AI Agent</span>
                         <span className="nav-live-badge">Live</span>
                     </button>
@@ -65,7 +69,7 @@ function AppLayout({ children, currentModule, onModuleChange, onReturnHome, cred
                 {/* Credits Widget */}
                 <div className="sidebar-credits">
                     <div className="credits-info">
-                        <span className="credits-icon">⚡</span>
+                        <span className="credits-icon"><BoltIcon size={14} /></span>
                         <span className="credits-value">{credits.toLocaleString()}</span>
                     </div>
                     <div className="credits-bar-mini">
@@ -79,12 +83,12 @@ function AppLayout({ children, currentModule, onModuleChange, onReturnHome, cred
 
                 {/* Bottom Actions */}
                 <div className="sidebar-bottom">
-                    <button className="sidebar-nav-item" title="Settings">
-                        <span className="nav-item-icon">⚙️</span>
+                    <button className="sidebar-nav-item" title="Settings" aria-label="Settings">
+                        <span className="nav-item-icon"><SettingsIcon /></span>
                         <span className="nav-item-label">Settings</span>
                     </button>
-                    <button className="sidebar-nav-item" onClick={onReturnHome} title="Exit">
-                        <span className="nav-item-icon">🚪</span>
+                    <button className="sidebar-nav-item" onClick={onReturnHome} title="Exit" aria-label="Exit to home">
+                        <span className="nav-item-icon"><ExitIcon /></span>
                         <span className="nav-item-label">Exit</span>
                     </button>
                 </div>
@@ -101,7 +105,7 @@ function AppLayout({ children, currentModule, onModuleChange, onReturnHome, cred
                                 className="back-to-dashboard-btn"
                                 onClick={() => onModuleChange('dashboard')}
                             >
-                                <span className="back-arrow">←</span>
+                                <span className="back-arrow"><ArrowLeftIcon /></span>
                                 <span>Dashboard</span>
                             </button>
                         )}
@@ -109,14 +113,14 @@ function AppLayout({ children, currentModule, onModuleChange, onReturnHome, cred
                     </div>
                     <div className="header-right">
                         <div className="header-credits-display">
-                            <span className="credits-icon-sm">⚡</span>
+                            <span className="credits-icon-sm"><BoltIcon size={14} /></span>
                             <span>{credits.toLocaleString()} credits</span>
                         </div>
-                        <button className="header-icon-btn" title="Notifications">
-                            🔔
+                        <button className="header-icon-btn" title="Notifications" aria-label="Notifications">
+                            <BellIcon size={18} />
                         </button>
-                        <div className="header-avatar">
-                            <span>👤</span>
+                        <div className="header-avatar" aria-label="User profile">
+                            <UserIcon size={18} />
                         </div>
                     </div>
                 </header>

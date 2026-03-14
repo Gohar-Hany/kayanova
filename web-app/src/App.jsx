@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import LoadingScreen from './components/LoadingScreen'
 import AppLayout from './components/layout/AppLayout'
 import Dashboard from './components/modules/Dashboard'
 import AIChat from './components/modules/AIChat'
@@ -21,6 +22,7 @@ import EmailSequencesPage from './components/pages/EmailSequencesPage'
 import WebsiteCopyPage from './components/pages/WebsiteCopyPage'
 import SEOStrategyPage from './components/pages/SEOStrategyPage'
 import { generateMarketingPlan } from './services/api'
+import { PaletteIcon } from './components/Icons'
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -30,6 +32,7 @@ function App() {
         url: '',
         file: null
     })
+    const [appReady, setAppReady] = useState(false)
 
     // LINKED generation state - Marketing Plan and Content Calendar generate together
     const [linkedGenerationState, setLinkedGenerationState] = useState({
@@ -92,7 +95,7 @@ function App() {
 
     // Coming Soon generators metadata (Design Assets only now)
     const generatorMeta = {
-        design: { title: 'Design Assets', icon: '🎨', description: 'Generate design briefs and visual assets' },
+        design: { title: 'Design Assets', icon: <PaletteIcon size={32} />, description: 'Generate design briefs and visual assets' },
     }
 
     // Render the appropriate module content
@@ -158,32 +161,35 @@ function App() {
     // If not logged in, show landing page flow
     if (!isLoggedIn) {
         return (
-            <div className="app">
-                {/* Header */}
-                <header className="header">
-                    <div className="header-content">
-                        <div className="logo" onClick={handleReturnHome} style={{ cursor: 'pointer' }}>
-                            <img src="/kayanova-logo.png" alt="Kayanova" className="logo-image" />
+            <>
+                {!appReady && <LoadingScreen onComplete={() => setAppReady(true)} />}
+                <div className={`app ${appReady ? 'app--ready' : 'app--hidden'}`}>
+                    {/* Header */}
+                    <header className="header">
+                        <div className="header-content">
+                            <div className="logo" onClick={handleReturnHome} style={{ cursor: 'pointer' }}>
+                                <img src="/kayanova-logo.png" alt="Kayanova" className="logo-image" />
+                            </div>
+                            <div className="header-right">
+                                <button className="btn btn-primary" onClick={handleStart}>
+                                    Enter Dashboard
+                                </button>
+                                <span className="header-badge">Fully Automated</span>
+                            </div>
                         </div>
-                        <div className="header-right">
-                            <button className="btn btn-primary" onClick={handleStart}>
-                                Enter Dashboard
-                            </button>
-                            <span className="header-badge">Fully Automated</span>
-                        </div>
-                    </div>
-                </header>
+                    </header>
 
-                {/* Main Content */}
-                <main className="main">
-                    <LandingPage onStart={handleStart} onTransformSuccess={handleTransformSuccess} />
-                </main>
+                    {/* Main Content */}
+                    <main className="main">
+                        <LandingPage onStart={handleStart} onTransformSuccess={handleTransformSuccess} />
+                    </main>
 
-                {/* Footer */}
-                <footer className="footer">
-                    <p>© 2024 Kayanova — A Fully Automated Marketing Agency</p>
-                </footer>
-            </div>
+                    {/* Footer */}
+                    <footer className="footer">
+                        <p>© 2024 Kayanova — A Fully Automated Marketing Agency</p>
+                    </footer>
+                </div>
+            </>
         )
     }
 

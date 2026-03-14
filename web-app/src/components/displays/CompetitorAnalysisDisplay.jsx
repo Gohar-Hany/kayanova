@@ -1,3 +1,5 @@
+import { FileIcon, TrendingUpIcon } from '../Icons'
+
 function CompetitorAnalysisDisplay({ data }) {
     // Handle array or object response
     const competitors = Array.isArray(data) ? data : [data]
@@ -8,7 +10,7 @@ function CompetitorAnalysisDisplay({ data }) {
         return (
             <div className="analysis-section">
                 <h4 className="section-header">
-                    <span className="section-icon">{section.icon || '📋'}</span>
+                    <span className="section-icon">{section.icon || <FileIcon size={18} />}</span>
                     {section.title || title}
                 </h4>
                 <div className="section-content">
@@ -133,7 +135,7 @@ function CompetitorAnalysisDisplay({ data }) {
                     {competitor.extras?.success_metrics && (
                         <div className="success-metrics">
                             <h4 className="section-header">
-                                <span className="section-icon">📈</span>
+                                <span className="section-icon"><TrendingUpIcon size={18} /></span>
                                 Success Metrics
                             </h4>
                             <ul className="metrics-list">

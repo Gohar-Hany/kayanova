@@ -1,8 +1,10 @@
+import { SearchIcon, BarChartIcon, TrendingUpIcon, CalendarIcon } from './Icons'
+
 function ServicesPage({ userData, onBack, onServiceSelect }) {
     const services = [
         {
             id: 'competitor',
-            icon: '🔍',
+            icon: <SearchIcon size={28} />,
             title: 'Competitor Analysis',
             description: 'AI-powered competitive intelligence — understand rivals\' strategies, audiences, and positioning automatically',
             color: '#7c3aed',
@@ -10,7 +12,7 @@ function ServicesPage({ userData, onBack, onServiceSelect }) {
         },
         {
             id: 'report',
-            icon: '📊',
+            icon: <BarChartIcon size={28} />,
             title: 'Market & Competitive Report',
             description: 'Strategic market analysis with vision, competitive matrix, and 90-day roadmap — generated instantly',
             color: '#ec4899',
@@ -18,7 +20,7 @@ function ServicesPage({ userData, onBack, onServiceSelect }) {
         },
         {
             id: 'marketing',
-            icon: '📈',
+            icon: <TrendingUpIcon size={28} />,
             title: 'Marketing Plan',
             description: 'Complete marketing strategy with funnel tactics and budget allocation — ready for execution',
             color: '#10b981',
@@ -26,7 +28,7 @@ function ServicesPage({ userData, onBack, onServiceSelect }) {
         },
         {
             id: 'calendar',
-            icon: '📅',
+            icon: <CalendarIcon size={28} />,
             title: 'Content Calendar',
             description: '30-day content schedule with platform-specific posts, hooks, and captions — fully automated',
             color: '#f59e0b',

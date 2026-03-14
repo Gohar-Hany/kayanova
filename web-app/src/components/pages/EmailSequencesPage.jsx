@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { MailIcon } from '../Icons'
 
 function EmailSequencesPage({ onBack }) {
     const [showResults, setShowResults] = useState(true)
@@ -165,7 +166,7 @@ P.S. Just reply "INTERESTED" and I'll personally extend this offer if you need m
         <div className="generator-page">
             <div className="generator-header-section">
                 <div className="generator-title-row">
-                    <h1>📧 Email Sequences</h1>
+                    <h1><MailIcon size={22} /> Email Sequences</h1>
                     <span className="generator-badge active">Active</span>
                 </div>
                 <p className="generator-description">

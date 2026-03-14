@@ -1,3 +1,8 @@
+import {
+    BoltIcon, CalendarIcon, EyeIcon, TrendingUpIcon,
+    ClockIcon, RefreshIcon, TargetIcon, BarChartIcon, BellIcon
+} from '../Icons'
+
 function Automations() {
     const automationPreviews = [
         {
@@ -5,28 +10,28 @@ function Automations() {
             title: 'Weekly Content Generator',
             description: 'Auto-generate content calendars every Monday',
             status: 'preview',
-            icon: '📅'
+            icon: <CalendarIcon size={22} />
         },
         {
             id: 2,
             title: 'Competitor Watch',
             description: 'Monitor competitors and alert on changes',
             status: 'preview',
-            icon: '👁️'
+            icon: <EyeIcon size={22} />
         },
         {
             id: 3,
             title: 'Performance Reporter',
             description: 'Weekly marketing performance summaries',
             status: 'preview',
-            icon: '📈'
+            icon: <TrendingUpIcon size={22} />
         },
     ]
 
     return (
         <div className="coming-soon-module">
             <div className="coming-soon-header">
-                <div className="coming-soon-icon">⚡</div>
+                <div className="coming-soon-icon"><BoltIcon size={36} /></div>
                 <h2 className="coming-soon-title">Automation Hub</h2>
                 <span className="coming-soon-badge">Coming Soon</span>
             </div>
@@ -40,19 +45,19 @@ function Automations() {
                 <h4 className="preview-title">Automation capabilities:</h4>
                 <div className="preview-features">
                     <div className="preview-feature">
-                        <span className="preview-feature-icon">⏰</span>
+                        <span className="preview-feature-icon"><ClockIcon size={18} /></span>
                         <span>Scheduled Generations</span>
                     </div>
                     <div className="preview-feature">
-                        <span className="preview-feature-icon">🔄</span>
+                        <span className="preview-feature-icon"><RefreshIcon size={18} /></span>
                         <span>Recurring Workflows</span>
                     </div>
                     <div className="preview-feature">
-                        <span className="preview-feature-icon">🎯</span>
+                        <span className="preview-feature-icon"><TargetIcon size={18} /></span>
                         <span>Trigger-based Actions</span>
                     </div>
                     <div className="preview-feature">
-                        <span className="preview-feature-icon">📊</span>
+                        <span className="preview-feature-icon"><BarChartIcon size={18} /></span>
                         <span>Automation Analytics</span>
                     </div>
                 </div>
@@ -73,7 +78,7 @@ function Automations() {
             </div>
 
             <button className="coming-soon-notify-btn">
-                <span>🔔</span> Get Early Access
+                <span><BellIcon size={16} /></span> Get Early Access
             </button>
         </div>
     )

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { MicIcon, CheckIcon, CloseIcon } from '../Icons'
 
 function BrandVoicePage({ onBack }) {
     const [showResults, setShowResults] = useState(true)
@@ -66,7 +67,7 @@ function BrandVoicePage({ onBack }) {
         <div className="generator-page">
             <div className="generator-header-section">
                 <div className="generator-title-row">
-                    <h1>🎤 Brand Voice Guide</h1>
+                    <h1><MicIcon size={22} /> Brand Voice Guide</h1>
                     <span className="generator-badge active">Active</span>
                 </div>
                 <p className="generator-description">
@@ -112,8 +113,8 @@ function BrandVoicePage({ onBack }) {
                         <div className="attributes-table">
                             <div className="table-header">
                                 <span>Attribute</span>
-                                <span>Do This ✅</span>
-                                <span>Don't Do This ❌</span>
+                                <span>Do This <CheckIcon size={14} /></span>
+                                <span>Don't Do This <CloseIcon size={14} /></span>
                             </div>
                             {brandVoice.voiceAttributes.map((attr, i) => (
                                 <div key={i} className="table-row">
@@ -145,7 +146,7 @@ function BrandVoicePage({ onBack }) {
 
                     <div className="voice-section words-section">
                         <div className="words-column">
-                            <h4>Words to Use ✅</h4>
+                            <h4>Words to Use <CheckIcon size={14} /></h4>
                             <div className="words-tags">
                                 {brandVoice.wordsToUse.map((word, i) => (
                                     <span key={i} className="word-tag use">{word}</span>
@@ -153,7 +154,7 @@ function BrandVoicePage({ onBack }) {
                             </div>
                         </div>
                         <div className="words-column">
-                            <h4>Words to Avoid ❌</h4>
+                            <h4>Words to Avoid <CloseIcon size={14} /></h4>
                             <div className="words-tags">
                                 {brandVoice.wordsToAvoid.map((word, i) => (
                                     <span key={i} className="word-tag avoid">{word}</span>

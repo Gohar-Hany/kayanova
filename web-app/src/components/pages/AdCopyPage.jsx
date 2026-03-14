@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { PencilIcon } from '../Icons'
 
 function AdCopyPage({ onBack }) {
     const [showResults, setShowResults] = useState(true)
@@ -8,7 +9,7 @@ function AdCopyPage({ onBack }) {
     const adCopySets = {
         facebook: {
             platform: 'Facebook / Instagram',
-            icon: '📘',
+            icon: 'fb',
             ads: [
                 {
                     headline: 'Stop Managing Marketing. Start Commanding It.',
@@ -26,7 +27,7 @@ function AdCopyPage({ onBack }) {
         },
         google: {
             platform: 'Google Ads',
-            icon: '🔍',
+            icon: 'G',
             ads: [
                 {
                     headlines: ['AI Marketing Automation', 'Save 20+ Hours Weekly', 'Try Free Today'],
@@ -46,7 +47,7 @@ function AdCopyPage({ onBack }) {
         },
         linkedin: {
             platform: 'LinkedIn',
-            icon: '💼',
+            icon: 'in',
             ads: [
                 {
                     headline: 'What If Marketing Just... Happened?',
@@ -64,7 +65,7 @@ function AdCopyPage({ onBack }) {
         <div className="generator-page">
             <div className="generator-header-section">
                 <div className="generator-title-row">
-                    <h1>✍️ Ad Copy Machine</h1>
+                    <h1><PencilIcon size={22} /> Ad Copy Machine</h1>
                     <span className="generator-badge active">Active</span>
                 </div>
                 <p className="generator-description">

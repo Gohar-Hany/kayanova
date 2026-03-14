@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react'
 import { getCompetitorAnalysis } from '../../services/api'
+import {
+    WarningIcon, SearchIcon, UsersIcon, StarIcon, BarChartIcon,
+    PencilIcon, TrendingUpIcon, FileIcon, TargetIcon, CalendarIcon
+} from '../Icons'
 
 function CompetitorAnalysisPage({ onBack, userData }) {
     const [loading, setLoading] = useState(true)
@@ -31,7 +35,7 @@ function CompetitorAnalysisPage({ onBack, userData }) {
         return (
             <div className="analysis-section">
                 <h4 className="section-header">
-                    <span className="section-icon">{services.icon || '📋'}</span>
+                    <span className="section-icon">{services.icon || <FileIcon size={18} />}</span>
                     {services.title}
                     {services.count && <span className="section-count">{services.count} services</span>}
                 </h4>
@@ -63,7 +67,7 @@ function CompetitorAnalysisPage({ onBack, userData }) {
         return (
             <div className="analysis-section">
                 <h4 className="section-header">
-                    <span className="section-icon">{audience.icon || '👥'}</span>
+                    <span className="section-icon">{audience.icon || <UsersIcon size={18} />}</span>
                     {audience.title}
                 </h4>
                 <div className="audience-content">
@@ -126,7 +130,7 @@ function CompetitorAnalysisPage({ onBack, userData }) {
         return (
             <div className="analysis-section highlight">
                 <h4 className="section-header">
-                    <span className="section-icon">{usp.icon || '🌟'}</span>
+                    <span className="section-icon">{usp.icon || <StarIcon size={18} />}</span>
                     {usp.title}
                 </h4>
                 <div className="usp-content">
@@ -175,7 +179,7 @@ function CompetitorAnalysisPage({ onBack, userData }) {
         return (
             <div className="analysis-section">
                 <h4 className="section-header">
-                    <span className="section-icon">{pricing.icon || '💰'}</span>
+                    <span className="section-icon">{pricing.icon || <BoltIcon size={18} />}</span>
                     {pricing.title}
                 </h4>
                 <div className="pricing-content">
@@ -211,7 +215,7 @@ function CompetitorAnalysisPage({ onBack, userData }) {
         return (
             <div className="analysis-section">
                 <h4 className="section-header">
-                    <span className="section-icon">{style.icon || '📝'}</span>
+                    <span className="section-icon">{style.icon || <PencilIcon size={18} />}</span>
                     {style.title}
                 </h4>
                 <div className="style-content">
@@ -270,7 +274,7 @@ function CompetitorAnalysisPage({ onBack, userData }) {
         return (
             <div className="service-page">
                 <div className="page-error">
-                    <div className="error-icon">⚠️</div>
+                    <div className="error-icon"><WarningIcon size={36} /></div>
                     <h2>Analysis Failed</h2>
                     <p>{error}</p>
                     <div className="error-actions">
@@ -288,7 +292,7 @@ function CompetitorAnalysisPage({ onBack, userData }) {
                 <button className="back-btn" onClick={onBack}>← Back to Services</button>
                 <div className="page-title-section">
                     <h1 className="page-title">
-                        <span className="page-icon">🔍</span>
+                        <span className="page-icon"><SearchIcon size={24} /></span>
                         Competitor Analysis
                     </h1>
                     <p className="page-subtitle">
@@ -343,7 +347,7 @@ function CompetitorAnalysisPage({ onBack, userData }) {
                     {data[activeCompetitor].extras?.success_metrics && (
                         <div className="analysis-section success-metrics">
                             <h4 className="section-header">
-                                <span className="section-icon">📈</span>
+                                <span className="section-icon"><TrendingUpIcon size={18} /></span>
                                 Success Metrics
                             </h4>
                             <ul>

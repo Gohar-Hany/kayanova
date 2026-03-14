@@ -1,3 +1,5 @@
+import { TargetIcon, BarChartIcon, RocketIcon, BoltIcon, MegaphoneIcon, BellIcon, CalendarIcon, TrendingUpIcon } from '../Icons'
+
 function MarketingPlanDisplay({ data }) {
     const plan = data?.marketing_plan || data
 
@@ -41,7 +43,7 @@ function MarketingPlanDisplay({ data }) {
         return (
             <div className="objectives-section">
                 <h3 className="objectives-title">
-                    <span className="section-icon">🎯</span>
+                    <span className="section-icon"><TargetIcon size={18} /></span>
                     Strategic Objectives
                 </h3>
                 <div className="objectives-grid">
@@ -73,7 +75,7 @@ function MarketingPlanDisplay({ data }) {
         return (
             <div className="kpis-section">
                 <h3 className="kpis-title">
-                    <span className="section-icon">📊</span>
+                    <span className="section-icon"><BarChartIcon size={18} /></span>
                     Key Performance Indicators
                 </h3>
                 <div className="kpis-grid">
@@ -137,25 +139,25 @@ function MarketingPlanDisplay({ data }) {
     return (
         <div className="marketing-plan-display">
             <div className="plan-header">
-                <h2 className="plan-title">📈 Marketing Plan</h2>
+                <h2 className="plan-title"><TrendingUpIcon size={20} /> Marketing Plan</h2>
                 <p className="plan-subtitle">AI-generated actionable marketing strategy</p>
             </div>
 
             <div className="plan-content">
                 {plan.objectives && renderObjectives(plan.objectives)}
-                {plan.strategies && renderStrategySection(plan.strategies, 'Marketing Strategies', '🚀')}
-                {plan.tactics && renderStrategySection(plan.tactics, 'Tactics', '⚡')}
-                {plan.channels && renderStrategySection(plan.channels, 'Marketing Channels', '📢')}
+                {plan.strategies && renderStrategySection(plan.strategies, 'Marketing Strategies', <RocketIcon size={18} />)}
+                {plan.tactics && renderStrategySection(plan.tactics, 'Tactics', <BoltIcon size={18} />)}
+                {plan.channels && renderStrategySection(plan.channels, 'Marketing Channels', <MegaphoneIcon size={18} />)}
                 {plan.kpis && renderKPIs(plan.kpis)}
                 {plan.budget && (
                     <div className="budget-section">
-                        <h3><span className="section-icon">💰</span> Budget Allocation</h3>
+                        <h3><span className="section-icon"><BellIcon size={18} /></span> Budget Allocation</h3>
                         {renderGenericContent(plan.budget)}
                     </div>
                 )}
                 {plan.timeline && (
                     <div className="timeline-section">
-                        <h3><span className="section-icon">📅</span> Timeline</h3>
+                        <h3><span className="section-icon"><CalendarIcon size={18} /></span> Timeline</h3>
                         {renderGenericContent(plan.timeline)}
                     </div>
                 )}
