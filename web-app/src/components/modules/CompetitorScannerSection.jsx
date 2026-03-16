@@ -369,69 +369,53 @@ function CompetitorScannerSection() {
     }
 
     return (
-        <section className="dashboard-section competitor-scanner-section">
-            <div className="competitor-scanner-card">
-                {/* Background glow effect */}
-                <div className="competitor-scanner-glow"></div>
+        <div className="competitor-scanner-card">
+            {/* Background glow effect */}
+            <div className="competitor-scanner-glow"></div>
 
-                {/* Header */}
-                <div className="competitor-scanner-header">
-                    <div className="scanner-title-wrap">
-                        <span className="scanner-icon"><SearchIcon size={22} /></span>
-                        <div>
-                            <h2 className="scanner-title">Competitor Intelligence Scanner</h2>
-                            <p className="scanner-subtitle">
-                                Analyze any Facebook competitor page in seconds
-                            </p>
-                        </div>
-                    </div>
-                    <span className="free-badge">FREE</span>
-                </div>
-
-                {/* Input Form */}
-                {status !== 'success' && (
-                    <form className="competitor-form" onSubmit={handleSubmit}>
-                        <div className="competitor-input-group">
-                            <input
-                                type="text"
-                                className={`competitor-input ${error ? 'input-error' : ''}`}
-                                placeholder="Paste Facebook page URL (e.g., facebook.com/kayanovagency)"
-                                value={url}
-                                onChange={(e) => {
-                                    setUrl(e.target.value)
-                                    if (error) setError('')
-                                }}
-                                disabled={status === 'processing'}
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            className={`competitor-submit-btn ${status === 'processing' ? 'btn-loading' : ''}`}
+            {/* Input Form */}
+            {status !== 'success' && (
+                <form className="competitor-form" onSubmit={handleSubmit}>
+                    <div className="competitor-input-group">
+                        <input
+                            type="text"
+                            className={`competitor-input ${error ? 'input-error' : ''}`}
+                            placeholder="Paste Facebook page URL (e.g., facebook.com/kayanovagency)"
+                            value={url}
+                            onChange={(e) => {
+                                setUrl(e.target.value)
+                                if (error) setError('')
+                            }}
                             disabled={status === 'processing'}
-                        >
-                            {status === 'processing' ? (
-                                <>
-                                    <span className="btn-spinner"></span>
-                                    <span>Analyzing...</span>
-                                </>
-                            ) : (
-                                <>
-                                    <span><RocketIcon size={16} /></span>
-                                    <span>Analyze Competitor</span>
-                                </>
-                            )}
-                        </button>
-                    </form>
-                )}
+                        />
+                    </div>
 
-                {/* Status Message */}
-                {renderStatusMessage()}
+                    <button
+                        type="submit"
+                        className={`competitor-submit-btn ${status === 'processing' ? 'btn-loading' : ''}`}
+                        disabled={status === 'processing'}
+                    >
+                        {status === 'processing' ? (
+                            <>
+                                <span className="btn-spinner"></span>
+                                <span>Analyzing...</span>
+                            </>
+                        ) : (
+                            <>
+                                <span><RocketIcon size={16} /></span>
+                                <span>Analyze Competitor</span>
+                            </>
+                        )}
+                    </button>
+                </form>
+            )}
 
-                {/* Results */}
-                {renderResults()}
-            </div>
-        </section>
+            {/* Status Message */}
+            {renderStatusMessage()}
+
+            {/* Results */}
+            {renderResults()}
+        </div>
     )
 }
 

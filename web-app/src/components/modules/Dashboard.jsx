@@ -211,16 +211,18 @@ function Dashboard({ userData, onNavigate, linkedGenerationState, onLinkedGenera
             onClick={report.onView}
             style={{ animationDelay: `${index * 80}ms` }}
         >
-            {report.popularity && (
-                <span className="premium-badge premium-badge-essential">{report.popularity}</span>
-            )}
             <div className="premium-card-header">
                 <div className="premium-icon-wrap">
                     <span className="premium-icon">{TOOL_ICONS[report.id]}</span>
                 </div>
-                <div className="premium-rating">
-                    <span className="star-icon"><StarIcon /></span>
-                    <span>{report.rating}</span>
+                <div className="premium-header-right">
+                    {report.popularity && (
+                        <span className="premium-badge premium-badge-essential">{report.popularity}</span>
+                    )}
+                    <div className="premium-rating">
+                        <span className="star-icon"><StarIcon /></span>
+                        <span>{report.rating}</span>
+                    </div>
                 </div>
             </div>
             <div className="premium-card-body">
@@ -260,22 +262,22 @@ function Dashboard({ userData, onNavigate, linkedGenerationState, onLinkedGenera
                 {/* Animated hover background */}
                 <div className={`premium-card-glow premium-card-glow-${colorClass}`}></div>
 
-                {/* Badge */}
-                {report.badge && (
-                    <span className={`premium-badge premium-badge-${report.badge}`}>
-                        {report.badge === 'hot' && <span className="badge-flame"><FlameIcon /></span>}
-                        {report.badgeText}
-                    </span>
-                )}
-
                 <div className="premium-card-content">
                     <div className="premium-card-header">
                         <div className={`premium-icon-wrap premium-icon-${colorClass}`}>
                             <span className="premium-icon">{TOOL_ICONS[report.id]}</span>
                         </div>
-                        <div className="premium-rating">
-                            <span className="star-icon"><StarIcon /></span>
-                            <span>{report.rating}</span>
+                        <div className="premium-header-right">
+                            {report.badge && (
+                                <span className={`premium-badge premium-badge-${report.badge}`}>
+                                    {report.badge === 'hot' && <span className="badge-flame"><FlameIcon /></span>}
+                                    {report.badgeText}
+                                </span>
+                            )}
+                            <div className="premium-rating">
+                                <span className="star-icon"><StarIcon /></span>
+                                <span>{report.rating}</span>
+                            </div>
                         </div>
                     </div>
 
@@ -334,18 +336,20 @@ function Dashboard({ userData, onNavigate, linkedGenerationState, onLinkedGenera
             onClick={() => onNavigate(generator.id)}
             style={{ animationDelay: `${(sectionIndex * 100) + (index * 80)}ms` }}
         >
-            {generator.popularity && (
-                <span className={`premium-badge premium-badge-${generator.popularity.toLowerCase()}`}>
-                    {generator.popularity}
-                </span>
-            )}
             <div className="premium-card-header">
                 <div className="premium-icon-wrap">
                     <span className="premium-icon">{TOOL_ICONS[generator.id]}</span>
                 </div>
-                <div className="premium-rating">
-                    <span className="star-icon"><StarIcon /></span>
-                    <span>{generator.rating}</span>
+                <div className="premium-header-right">
+                    {generator.popularity && (
+                        <span className={`premium-badge premium-badge-${generator.popularity.toLowerCase()}`}>
+                            {generator.popularity}
+                        </span>
+                    )}
+                    <div className="premium-rating">
+                        <span className="star-icon"><StarIcon /></span>
+                        <span>{generator.rating}</span>
+                    </div>
                 </div>
             </div>
             <div className="premium-card-body">
@@ -433,14 +437,11 @@ function Dashboard({ userData, onNavigate, linkedGenerationState, onLinkedGenera
                 </button>
             </section>
 
-            {/* Competitor Intelligence Scanner */}
-            <CompetitorScannerSection />
-
-            {/* Your Reports Section */}
+            {/* Your Reports Section (Available results) */}
             <section className="dashboard-section">
                 <div className="section-header">
                     <div className="section-title-wrap">
-                        <span className="section-icon"><BarChartIcon size={20} /></span>
+                        <span className="section-icon section-icon-emerald"><BarChartIcon size={20} /></span>
                         <div>
                             <h2 className="section-title">Your Reports</h2>
                             <p className="section-subtitle">Auto-generated insights ready to view</p>
@@ -453,11 +454,11 @@ function Dashboard({ userData, onNavigate, linkedGenerationState, onLinkedGenera
                 </div>
             </section>
 
-            {/* Strategy & Content Section */}
+            {/* Strategy & Content Section (Combined tools) */}
             <section className="dashboard-section">
                 <div className="section-header">
                     <div className="section-title-wrap">
-                        <span className="section-icon"><TargetIcon size={20} /></span>
+                        <span className="section-icon section-icon-purple"><TargetIcon size={20} /></span>
                         <div>
                             <h2 className="section-title">Strategy & Content</h2>
                             <p className="section-subtitle">Generate your marketing plan & content calendar together</p>
@@ -491,7 +492,7 @@ function Dashboard({ userData, onNavigate, linkedGenerationState, onLinkedGenera
             <section className="dashboard-section">
                 <div className="section-header">
                     <div className="section-title-wrap">
-                        <span className="section-icon"><RocketIcon size={20} /></span>
+                        <span className="section-icon section-icon-blue"><RocketIcon size={20} /></span>
                         <div>
                             <h2 className="section-title">Strategy & Planning</h2>
                             <p className="section-subtitle">Build your marketing foundation</p>
@@ -508,7 +509,7 @@ function Dashboard({ userData, onNavigate, linkedGenerationState, onLinkedGenera
             <section className="dashboard-section">
                 <div className="section-header">
                     <div className="section-title-wrap">
-                        <span className="section-icon"><SearchIcon size={20} /></span>
+                        <span className="section-icon section-icon-amber"><SearchIcon size={20} /></span>
                         <div>
                             <h2 className="section-title">Research & Analysis</h2>
                             <p className="section-subtitle">Data-driven market insights</p>
@@ -525,7 +526,7 @@ function Dashboard({ userData, onNavigate, linkedGenerationState, onLinkedGenera
             <section className="dashboard-section">
                 <div className="section-header">
                     <div className="section-title-wrap">
-                        <span className="section-icon"><PencilIcon size={20} /></span>
+                        <span className="section-icon section-icon-rose"><PencilIcon size={20} /></span>
                         <div>
                             <h2 className="section-title">Content Creation</h2>
                             <p className="section-subtitle">Create engaging content at scale</p>
@@ -553,6 +554,21 @@ function Dashboard({ userData, onNavigate, linkedGenerationState, onLinkedGenera
                 <div className="premium-grid">
                     {adTools.map((tool, i) => renderGeneratorCard(tool, i, 3))}
                 </div>
+            </section>
+
+            {/* Competitor Intelligence Section */}
+            <section className="dashboard-section">
+                <div className="section-header">
+                    <div className="section-title-wrap">
+                        <span className="section-icon section-icon-warning"><SearchIcon size={20} /></span>
+                        <div>
+                            <h2 className="section-title">Competitor Intelligence</h2>
+                            <p className="section-subtitle">Deep analysis of your market rivals</p>
+                        </div>
+                    </div>
+                    <span className="section-badge-free">FREE SCANNER</span>
+                </div>
+                <CompetitorScannerSection />
             </section>
 
             {/* Coming Soon */}
