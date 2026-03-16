@@ -2,11 +2,18 @@ import { useState, useCallback } from 'react'
 import { submitWebsiteData } from '../services/api'
 import {
     CloseIcon, RocketIcon, GlobeIcon, FileIcon, UploadIcon,
-    WarningIcon, SearchIcon, ArrowRightIcon, CheckIcon
+    WarningIcon, SearchIcon, ArrowRightIcon, CheckIcon,
+    FacebookIcon, InstagramIcon, LinkedinIcon, TiktokIcon
 } from './Icons'
 
 function TransformModal({ isOpen, onClose, onSuccess }) {
     const [url, setUrl] = useState('')
+    const [socials, setSocials] = useState({
+        facebook: '',
+        instagram: '',
+        linkedin: '',
+        tiktok: ''
+    })
     const [file, setFile] = useState(null)
     const [isDragOver, setIsDragOver] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -42,6 +49,10 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
         setUrl(e.target.value)
     }
 
+    const handleSocialChange = (platform, value) => {
+        setSocials(prev => ({ ...prev, [platform]: value }))
+    }
+
     const removeFile = () => {
         setFile(null)
     }
@@ -56,8 +67,8 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
         setError(null)
 
         try {
-            await submitWebsiteData(url, file)
-            onSuccess({ url, file })
+            await submitWebsiteData(url, file, socials)
+            onSuccess({ url, file, socials })
         } catch (err) {
             setError(err.message)
             setIsLoading(false)
@@ -67,6 +78,12 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
     const handleClose = () => {
         if (!isLoading) {
             setUrl('')
+            setSocials({
+                facebook: '',
+                instagram: '',
+                linkedin: '',
+                tiktok: ''
+            })
             setFile(null)
             setError(null)
             onClose()
@@ -143,6 +160,70 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                                         onChange={handleUrlChange}
                                     />
                                     {url && <span className="input-check"><CheckIcon size={14} /></span>}
+                                </div>
+                            </div>
+
+                            {/* Social Media Links */}
+                            <div className="transform-socials-grid">
+                                <div className="transform-input-section">
+                                    <label className="input-label">
+                                        <span className="label-icon"><FacebookIcon size={14} /></span>
+                                        Facebook
+                                    </label>
+                                    <div className="social-input-wrapper">
+                                        <input
+                                            type="text"
+                                            className="transform-url-input social-input"
+                                            placeholder="facebook.com/..."
+                                            value={socials.facebook}
+                                            onChange={(e) => handleSocialChange('facebook', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="transform-input-section">
+                                    <label className="input-label">
+                                        <span className="label-icon"><InstagramIcon size={14} /></span>
+                                        Instagram
+                                    </label>
+                                    <div className="social-input-wrapper">
+                                        <input
+                                            type="text"
+                                            className="transform-url-input social-input"
+                                            placeholder="instagram.com/..."
+                                            value={socials.instagram}
+                                            onChange={(e) => handleSocialChange('instagram', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="transform-input-section">
+                                    <label className="input-label">
+                                        <span className="label-icon"><LinkedinIcon size={14} /></span>
+                                        LinkedIn
+                                    </label>
+                                    <div className="social-input-wrapper">
+                                        <input
+                                            type="text"
+                                            className="transform-url-input social-input"
+                                            placeholder="linkedin.com/..."
+                                            value={socials.linkedin}
+                                            onChange={(e) => handleSocialChange('linkedin', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="transform-input-section">
+                                    <label className="input-label">
+                                        <span className="label-icon"><TiktokIcon size={14} /></span>
+                                        TikTok
+                                    </label>
+                                    <div className="social-input-wrapper">
+                                        <input
+                                            type="text"
+                                            className="transform-url-input social-input"
+                                            placeholder="tiktok.com/@..."
+                                            value={socials.tiktok}
+                                            onChange={(e) => handleSocialChange('tiktok', e.target.value)}
+                                        />
+                                    </div>
                                 </div>
                             </div>
 

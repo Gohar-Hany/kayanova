@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import LoadingScreen from './components/LoadingScreen'
 import AppLayout from './components/layout/AppLayout'
 import Dashboard from './components/modules/Dashboard'
 import AIChat from './components/modules/AIChat'
@@ -32,7 +31,6 @@ function App() {
         url: '',
         file: null
     })
-    const [appReady, setAppReady] = useState(false)
 
     // LINKED generation state - Marketing Plan and Content Calendar generate together
     const [linkedGenerationState, setLinkedGenerationState] = useState({
@@ -62,18 +60,21 @@ function App() {
             url: data.url || '',
             file: data.file || null
         })
+        window.scrollTo(0, 0)
         setIsLoggedIn(true)
         setCurrentModule('dashboard')
     }
 
     // Landing page flow handlers (direct entry without modal)
     const handleStart = () => {
+        window.scrollTo(0, 0)
         setIsLoggedIn(true)
         setCurrentModule('dashboard')
     }
 
     // Return to home/landing page
     const handleReturnHome = () => {
+        window.scrollTo(0, 0)
         setIsLoggedIn(false)
         setCurrentModule('dashboard')
         setUserData({ url: '', file: null })
@@ -82,14 +83,17 @@ function App() {
     }
 
     const handleModuleChange = (moduleId) => {
+        window.scrollTo(0, 0)
         setCurrentModule(moduleId)
     }
 
     const handleNavigateFromDashboard = (moduleId) => {
+        window.scrollTo(0, 0)
         setCurrentModule(moduleId)
     }
 
     const handleBackToServices = () => {
+        window.scrollTo(0, 0)
         setCurrentModule('dashboard')
     }
 
@@ -161,35 +165,12 @@ function App() {
     // If not logged in, show landing page flow
     if (!isLoggedIn) {
         return (
-            <>
-                {!appReady && <LoadingScreen onComplete={() => setAppReady(true)} />}
-                <div className={`app ${appReady ? 'app--ready' : 'app--hidden'}`}>
-                    {/* Header */}
-                    <header className="header">
-                        <div className="header-content">
-                            <div className="logo" onClick={handleReturnHome} style={{ cursor: 'pointer' }}>
-                                <img src="/kayanova-logo.png" alt="Kayanova" className="logo-image" />
-                            </div>
-                            <div className="header-right">
-                                <button className="btn btn-primary" onClick={handleStart}>
-                                    Enter Dashboard
-                                </button>
-                                <span className="header-badge">Fully Automated</span>
-                            </div>
-                        </div>
-                    </header>
-
-                    {/* Main Content */}
-                    <main className="main">
-                        <LandingPage onStart={handleStart} onTransformSuccess={handleTransformSuccess} />
-                    </main>
-
-                    {/* Footer */}
-                    <footer className="footer">
-                        <p>© 2024 Kayanova — A Fully Automated Marketing Agency</p>
-                    </footer>
-                </div>
-            </>
+            <div className="app app--ready">
+                {/* Main Content */}
+                <main className="main main-landing">
+                    <LandingPage onStart={handleStart} onTransformSuccess={handleTransformSuccess} onReturnHome={handleReturnHome} />
+                </main>
+            </div>
         )
     }
 

@@ -5,7 +5,7 @@ const WEBHOOK_BASE = import.meta.env.VITE_WEBHOOK_URL || 'https://n8n-n8n.vwe4kq
  * Submit website URL and/or file for initial analysis
  * POST /webhook-test/url
  */
-export async function submitWebsiteData(url, file) {
+export async function submitWebsiteData(url, file, socials = {}) {
     try {
         const payload = {};
 
@@ -19,6 +19,11 @@ export async function submitWebsiteData(url, file) {
             payload.fileData = await fileToBase64(file);
             payload.fileName = file.name;
             payload.fileType = file.type;
+        }
+
+        // Add Social links
+        if (socials && Object.keys(socials).length > 0) {
+            payload.socials = socials;
         }
 
         const response = await fetch(`${WEBHOOK_BASE}/webhook/url`, {
