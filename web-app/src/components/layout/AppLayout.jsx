@@ -33,6 +33,11 @@ function AppLayout({ children, currentModule, onModuleChange, onReturnHome, cred
 
     return (
         <div className={`app-layout-new ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+            {/* Accessibility Skip Link */}
+            <a href="#main-content" className="skip-link">
+                Skip to Content
+            </a>
+
             {/* Minimal Sidebar */}
             <aside className="sidebar-minimal">
                 {/* Logo */}
@@ -126,7 +131,7 @@ function AppLayout({ children, currentModule, onModuleChange, onReturnHome, cred
                 </header>
 
                 {/* Content */}
-                <main className="content-area-new">
+                <main id="main-content" className="content-area-new">
                     {children}
                 </main>
             </div>

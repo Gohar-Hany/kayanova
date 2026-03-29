@@ -161,6 +161,7 @@ Available API functions:
 - Dark theme only; background palette: `--color-bg-primary` (#09090b) → `--color-bg-elevated` (#1c1c21)
 - Primary accent: `--color-accent` (#6366f1, indigo)
 - When adding new CSS classes, add them to `index.css` and follow the existing BEM-like naming style.
+- **Follow the Antigravit Frontend Standards** below for all new styling and visual polish.
 
 ### Component Conventions
 
@@ -170,25 +171,143 @@ Available API functions:
 - `useState` and `useEffect` are the primary hooks; `useCallback` is used for event handlers that would cause re-renders.
 - Conditional rendering uses short-circuit (`&&`) or ternaries.
 - Lists are rendered with `.map()` and always include a `key` prop.
+- **Accessibility**: Follow the standards below (ARIA labels, keyboard handlers, semantic HTML).
 
 ---
 
-## UI/UX Design Reference
+## ⚡ Antigravit Frontend Standards
 
-See `.agent/workflows/ui-ux-guidelines.md` for the design system guidelines including typography scale, spacing grid, button hierarchy, animation timings, shadow levels, and accessibility requirements.
+*The following standards define the peak aesthetic and technical excellence for this project.*
+
+### 🎨 Design Philosophy
+
+Before writing a single line of code, commit to a **BOLD aesthetic direction**. Ask:
+- **Purpose** — What problem does this UI solve? Who uses it?
+- **Tone** — Pick one and own it: brutally minimal / maximalist / retro-futuristic / luxury / editorial / brutalist / art-deco / industrial. Execute with precision.
+- **Differentiation** — What makes this screen UNFORGETTABLE?
+
+> Bold maximalism and refined minimalism both work. The key is **intentionality**, not intensity.
+
+#### ❌ Never Do (AI Slop)
+- Inter, Roboto, Arial, or system fonts as primary typeface
+- Purple gradients on white backgrounds
+- Uniform rounded corners everywhere
+- Cookie-cutter centered layouts with no spatial tension
+- `Space Grotesk` — overused, avoid entirely
+
+#### ✅ Always Do
+- Pair a **distinctive display font** with a refined body font (use Google Fonts or Bunny Fonts)
+- Use **CSS variables** for all colors/spacing — never magic numbers
+- Dominant color palette with **sharp accent** — not evenly distributed pastels
+- Unexpected layouts: asymmetry, overlap, diagonal flow, grid-breaking elements
+- Atmosphere: gradient meshes, noise textures, geometric patterns, grain overlays, dramatic shadows
+
+### ♿ Accessibility
+
+- Icon-only buttons **must** have `aria-label`
+- All form controls need `<label>` or `aria-label`
+- Interactive elements need keyboard handlers (`onKeyDown` / `onKeyUp`)
+- Use `<button>` for actions, `<a>` / `<Link>` for navigation — **never** `<div onClick>`
+- All `<img>` need `alt` (or `alt=""` if purely decorative)
+- Decorative icons need `aria-hidden="true"`
+- Async updates (toasts, validation) need `aria-live="polite"`
+- Prefer semantic HTML (`<button>`, `<a>`, `<label>`, `<table>`) over ARIA attributes
+- Headings must be hierarchical `<h1>` → `<h6>` — include skip link for main content
+- Add `scroll-margin-top` on anchor headings
+
+### 🎯 Focus States
+
+- All interactive elements need **visible focus**: `focus-visible:ring-*` or equivalent
+- **Never** use `outline-none` / `outline: 0` without a custom focus-visible replacement
+- Use `:focus-visible` over `:focus` — avoid showing ring on mouse click
+- Use `:focus-within` for compound controls (e.g., input groups)
+
+### 📝 Forms
+
+- Inputs need `autocomplete` and a meaningful `name` attribute
+- Use correct `type` (`email`, `tel`, `url`, `number`) and `inputmode`
+- **Never** block paste (`onPaste` + `preventDefault`)
+- Labels must be clickable (`htmlFor` or wrapping the control)
+- Disable spellcheck on emails, codes, usernames: `spellCheck={false}`
+- Checkboxes/radios: label + control share a single hit target — no dead zones
+- Submit button stays **enabled** until request fires; show spinner during request
+- Errors displayed **inline** next to fields; focus first error on submit
+- Placeholders end with `…` and show example pattern
+- `autocomplete="off"` only on non-auth fields
+- Warn before navigation with unsaved changes (`beforeunload` or router guard)
+
+### 🎞️ Animation
+
+- Always honor `prefers-reduced-motion` — provide reduced variant or disable entirely
+- Animate **only** `transform` and `opacity` — compositor-friendly, no layout thrashing
+- **Never** use `transition: all` — list properties explicitly
+- Always set `transform-origin` explicitly
+- SVG animations: use transforms on `<g>` wrapper with `transform-box: fill-box; transform-origin: center`
+- Animations must be **interruptible** — respond to user input mid-animation
+- Focus on **high-impact moments**: one orchestrated page-load with staggered `animation-delay` > scattered micro-interactions
+
+### 🔤 Typography & Copy
+
+- Use `…` (ellipsis character) — **not** `...` (three dots)
+- Curly quotes `"` `"` — **not** straight `"`
+- Non-breaking spaces for: `10&nbsp;MB`, `⌘&nbsp;K`, brand names
+- Loading states: `"Loading…"`, `"Saving…"` — never `"Loading..."`
+- Number columns/comparisons: `font-variant-numeric: tabular-nums`
+- Headings: `text-wrap: balance` or `text-pretty` — prevents orphaned words
+- **Active voice**: "Install the CLI" — not "The CLI will be installed"
+- **Title Case** for headings and buttons (Chicago style)
+- **Specific labels**: "Save API Key" — not "Continue"
+
+### 📦 Content Handling
+
+- Text containers must handle long content: `truncate`, `line-clamp-*`, or `break-words`
+- Flex children need `min-w-0` to allow text truncation
+- **Always** handle empty states — never render broken UI for empty strings/arrays
+
+### ⚡ Performance
+
+- Lists > 50 items: **virtualize** (`virtua`, `react-virtual`, or `content-visibility: auto`)
+- **No** layout reads inside render (`getBoundingClientRect`, `offsetHeight`, `scrollTop`)
+- Batch DOM reads/writes — never interleave
+- Prefer **uncontrolled** inputs; controlled inputs must be cheap per keystroke
+- Add `<link rel="preconnect">` for CDN/external asset domains
+- Critical fonts: `<link rel="preload" as="font">` + `font-display: swap`
+
+### 🧭 Navigation & State
+
+- **URL reflects state** — filters, tabs, pagination, expanded panels → query params
+- Links always use `<a>` / `<Link>` (Cmd+click, middle-click, SEO)
+- Deep-link all stateful UI
+- Destructive actions need a **confirmation modal or undo window**
+
+### 📐 Layout & Safe Areas
+
+- Full-bleed layouts: use `env(safe-area-inset-*)` for notch/island devices
+- Prevent unwanted scrollbars: `overflow-x-hidden` on containers
+- Prefer **flex/grid** over JS measurement for layout
+
+### 🌙 Dark Mode & Theming
+
+- Set `color-scheme: dark` on `<html>` for dark themes (fixes scrollbar, native inputs)
+- `<meta name="theme-color">` must match the page background color
 
 ---
 
-## Response Structure Fixtures
+## 🚩 Anti-Patterns — Flag These Immediately
 
-The `Response Stracture/` directory contains sample text responses from the n8n backend. Use these as reference when building or updating display components (`src/components/displays/`) to ensure the UI handles the actual data shape returned by the API.
-
----
-
-## Important Notes for the Coding Agent
-
-- **No backend code lives in this repo.** The n8n workflows are hosted externally. Backend changes require modifying the n8n instance directly.
-- **No routing library** — all navigation is prop-drilling through `App.jsx`.
-- **Coming Soon modules** (`analytics`, `automations`, `design`) render `<ComingSoonGenerator>` — do not add full implementations for these without explicit instructions.
-- The `linkedGenerationState` pattern in `App.jsx` ensures the Marketing Plan and Content Calendar are generated together via a single POST request, but displayed independently.
-- The ElevenLabs `<elevenlabs-convai>` web component is loaded via a CDN script in `index.html` and rendered in `AppLayout.jsx` as a floating widget.
+| Anti-Pattern | Why |
+|---|---|
+| `user-scalable=no` or `maximum-scale=1` | Blocks zoom — accessibility violation |
+| `onPaste` + `preventDefault` | Blocks paste — terrible UX |
+| `transition: all` | Performance killer — list properties explicitly |
+| `outline-none` without focus replacement | Accessibility violation |
+| `<div onClick>` for navigation | No keyboard/Cmd+click support |
+| `<div>` / `<span>` as buttons | Wrong semantics — use `<button>` |
+| `<img>` without `width` + `height` | Causes CLS |
+| `.map()` on >50 items without virtualization | Performance issue |
+| Form inputs without labels | Accessibility violation |
+| Icon buttons without `aria-label` | Screen reader failure |
+| Hardcoded date/number formats | Breaks i18n |
+| `Inter` / `Roboto` / `Arial` as display font | Generic AI slop |
+| Purple gradients on white | Cliché — never |
+| `Space Grotesk` | Overused — banned |
