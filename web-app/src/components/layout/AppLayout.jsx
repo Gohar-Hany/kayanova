@@ -136,10 +136,6 @@ function AppLayout({ children, currentModule, onModuleChange, onReturnHome, cred
                 </main>
             </div>
 
-            {/* ElevenLabs Voice AI Assistant - Floating Widget */}
-            <div className="elevenlabs-widget-container">
-                <elevenlabs-convai agent-id="agent_2701kcqc3zzwf1xr3aqjsje04hym"></elevenlabs-convai>
-            </div>
         </div>
     )
 }
