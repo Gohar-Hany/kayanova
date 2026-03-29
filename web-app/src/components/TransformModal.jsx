@@ -110,13 +110,13 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
 
                 {isLoading ? (
                     /* Loading State */
-                    <div className="transform-loading">
+                    <div className="transform-loading" aria-live="polite">
                         <div className="loading-animation">
                             <div className="loading-spinner-ring"></div>
                             <div className="loading-icon"><SearchIcon size={28} /></div>
                         </div>
-                        <h2 className="loading-title">Analyzing your website...</h2>
-                        <p className="loading-subtitle">Performing market research...</p>
+                        <h2 className="loading-title">Analyzing your website…</h2>
+                        <p className="loading-subtitle">Performing market research…</p>
                         <div className="loading-steps">
                             <div className="loading-step active">
                                 <span className="step-dot"></span>
@@ -153,9 +153,13 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                                 <div className="url-input-wrapper">
                                     <span className="url-prefix">https://</span>
                                     <input
-                                        type="text"
+                                        type="url"
+                                        inputMode="url"
+                                        name="website-url"
+                                        autoComplete="url"
+                                        spellCheck={false}
                                         className="transform-url-input"
-                                        placeholder="yourwebsite.com"
+                                        placeholder="yourwebsite.com…"
                                         value={url}
                                         onChange={handleUrlChange}
                                     />
@@ -172,9 +176,13 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                                     </label>
                                     <div className="social-input-wrapper">
                                         <input
-                                            type="text"
+                                            type="url"
+                                            inputMode="url"
+                                            name="facebook-url"
+                                            autoComplete="off"
+                                            spellCheck={false}
                                             className="transform-url-input social-input"
-                                            placeholder="facebook.com/..."
+                                            placeholder="facebook.com/…"
                                             value={socials.facebook}
                                             onChange={(e) => handleSocialChange('facebook', e.target.value)}
                                         />
@@ -187,9 +195,13 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                                     </label>
                                     <div className="social-input-wrapper">
                                         <input
-                                            type="text"
+                                            type="url"
+                                            inputMode="url"
+                                            name="instagram-url"
+                                            autoComplete="off"
+                                            spellCheck={false}
                                             className="transform-url-input social-input"
-                                            placeholder="instagram.com/..."
+                                            placeholder="instagram.com/…"
                                             value={socials.instagram}
                                             onChange={(e) => handleSocialChange('instagram', e.target.value)}
                                         />
@@ -202,9 +214,13 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                                     </label>
                                     <div className="social-input-wrapper">
                                         <input
-                                            type="text"
+                                            type="url"
+                                            inputMode="url"
+                                            name="linkedin-url"
+                                            autoComplete="off"
+                                            spellCheck={false}
                                             className="transform-url-input social-input"
-                                            placeholder="linkedin.com/..."
+                                            placeholder="linkedin.com/…"
                                             value={socials.linkedin}
                                             onChange={(e) => handleSocialChange('linkedin', e.target.value)}
                                         />
@@ -217,9 +233,13 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
                                     </label>
                                     <div className="social-input-wrapper">
                                         <input
-                                            type="text"
+                                            type="url"
+                                            inputMode="url"
+                                            name="tiktok-url"
+                                            autoComplete="off"
+                                            spellCheck={false}
                                             className="transform-url-input social-input"
-                                            placeholder="tiktok.com/@..."
+                                            placeholder="tiktok.com/@…"
                                             value={socials.tiktok}
                                             onChange={(e) => handleSocialChange('tiktok', e.target.value)}
                                         />
@@ -280,7 +300,7 @@ function TransformModal({ isOpen, onClose, onSuccess }) {
 
                             {/* Error Message */}
                             {error && (
-                                <div className="transform-error">
+                                <div className="transform-error" role="alert" aria-live="assertive">
                                     <span className="error-icon"><WarningIcon size={16} /></span>
                                     <span className="error-text">{error}</span>
                                 </div>

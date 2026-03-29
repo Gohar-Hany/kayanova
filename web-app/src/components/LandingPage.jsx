@@ -66,7 +66,9 @@ const LandingPage = ({ onStart, onTransformSuccess, onReturnHome }) => {
         <div className="landing-page">
             {/* NAV */}
 <nav className={`nav ${isScrolled ? "scrolled" : ""}`} id="navbar">
-  <div className="nav-logo" onClick={onReturnHome} style={{cursor:"pointer"}}>Kayanova</div>
+  <button className="nav-logo" onClick={onReturnHome} type="button" aria-label="Return to home">
+    Kayanova
+  </button>
   <div className="nav-links">
     <a className="nav-link" onClick={handleNavClick} href="#features">Features</a>
     <a className="nav-link" onClick={handleNavClick} href="#how-it-works">How It Works</a>
@@ -75,7 +77,7 @@ const LandingPage = ({ onStart, onTransformSuccess, onReturnHome }) => {
   </div>
   <div className="nav-right">
     <span className="badge-pill">Fully Automated</span>
-    <button className="btn-nav" onClick={onStart}>Enter Dashboard →</button>
+    <button className="btn-nav" onClick={onStart} type="button">Enter Dashboard →</button>
   </div>
 </nav>
 
@@ -92,9 +94,9 @@ const LandingPage = ({ onStart, onTransformSuccess, onReturnHome }) => {
       <span className="grad">in Minutes, Not Months</span>
     </h1>
     <p className="hero-sub">Kayanova delivers end-to-end marketing execution powered by AI — competitor analysis, strategy, and content creation, all on autopilot.</p>
-    <button className="btn-hero" onClick={handleStartClick}>
+    <button className="btn-hero" onClick={handleStartClick} type="button">
       <span>Start Transforming</span>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
     <p className="hero-note">No credit card required • Fully automated in minutes</p>
   </div>
@@ -320,9 +322,9 @@ const LandingPage = ({ onStart, onTransformSuccess, onReturnHome }) => {
   <div className="cta-card reveal">
     <h2 className="cta-title">Ready to Automate Your Growth?</h2>
     <p className="cta-sub">Join businesses using Kayanova to execute marketing on autopilot. Start transforming today.</p>
-    <button className="btn-hero" style={{opacity:1, animation:"none"}} onClick={handleStartClick}>
+    <button className="btn-hero" style={{opacity:1, animation:"none"}} onClick={handleStartClick} type="button">
       <span>Start Your Transformation</span>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
   </div>
 </section>

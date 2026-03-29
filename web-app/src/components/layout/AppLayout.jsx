@@ -42,9 +42,9 @@ function AppLayout({ children, currentModule, onModuleChange, onReturnHome, cred
             <aside className="sidebar-minimal">
                 {/* Logo */}
                 <div className="sidebar-logo-section">
-                    <div className="sidebar-logo" onClick={onReturnHome} title="Return to Home">
-                        <img src="/kayanova-logo.png" alt="Kayanova" className="sidebar-logo-img" />
-                    </div>
+                    <button className="sidebar-logo" onClick={onReturnHome} title="Return to Home" aria-label="Return to home">
+                        <img src="/kayanova-logo.png" alt="Kayanova" className="sidebar-logo-img" width="32" height="32" />
+                    </button>
                 </div>
 
                 {/* Main Nav */}
@@ -124,9 +124,9 @@ function AppLayout({ children, currentModule, onModuleChange, onReturnHome, cred
                         <button className="header-icon-btn" title="Notifications" aria-label="Notifications">
                             <BellIcon size={18} />
                         </button>
-                        <div className="header-avatar" aria-label="User profile">
+                        <button className="header-avatar" aria-label="User profile">
                             <UserIcon size={18} />
-                        </div>
+                        </button>
                     </div>
                 </header>
 

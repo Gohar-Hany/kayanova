@@ -303,7 +303,7 @@ function Dashboard({ userData, onNavigate, linkedGenerationState, onLinkedGenera
                             {linkedLoading ? (
                                 <button className={`btn-loading btn-loading-${colorClass}`} disabled>
                                     <span className="btn-spinner"></span>
-                                    <span>Generating...</span>
+                                    <span>Generating…</span>
                                 </button>
                             ) : linkedGenerated ? (
                                 <button className="btn-view-emerald" onClick={report.onView}>
@@ -469,7 +469,7 @@ function Dashboard({ userData, onNavigate, linkedGenerationState, onLinkedGenera
                     ) : linkedLoading ? (
                         <span className="section-badge-loading">
                             <span className="badge-spinner"></span>
-                            Generating...
+                            Generating…
                         </span>
                     ) : (
                         <span className="section-count">2 tools</span>

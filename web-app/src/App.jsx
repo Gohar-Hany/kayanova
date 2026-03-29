@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AppLayout from './components/layout/AppLayout'
 import Dashboard from './components/modules/Dashboard'
 import AIChat from './components/modules/AIChat'
@@ -24,13 +24,38 @@ import { generateMarketingPlan } from './services/api'
 import { PaletteIcon } from './components/Icons'
 
 function App() {
+    // Valid module IDs for hash sync
+    const VALID_MODULES = new Set([
+        'dashboard', 'chat', 'competitor', 'report', 'marketing', 'calendar',
+        'personas', 'campaign', 'brandvoice', 'adcopy', 'social', 'email',
+        'websitecopy', 'seo', 'documents', 'automations', 'analytics', 'design'
+    ])
+
+    // Read initial module from URL hash
+    const getModuleFromHash = () => {
+        const hash = window.location.hash.replace('#', '')
+        return VALID_MODULES.has(hash) ? hash : 'dashboard'
+    }
+
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [currentModule, setCurrentModule] = useState('dashboard')
+    const [currentModule, setCurrentModule] = useState(getModuleFromHash)
     const [credits, setCredits] = useState(2500)
     const [userData, setUserData] = useState({
         url: '',
         file: null
     })
+
+    // Sync hash → state on popstate (browser back/forward)
+    useEffect(() => {
+        const handleHashChange = () => {
+            if (isLoggedIn) {
+                const mod = getModuleFromHash()
+                setCurrentModule(mod)
+            }
+        }
+        window.addEventListener('hashchange', handleHashChange)
+        return () => window.removeEventListener('hashchange', handleHashChange)
+    }, [isLoggedIn])
 
     // LINKED generation state - Marketing Plan and Content Calendar generate together
     const [linkedGenerationState, setLinkedGenerationState] = useState({
@@ -85,11 +110,13 @@ function App() {
     const handleModuleChange = (moduleId) => {
         window.scrollTo(0, 0)
         setCurrentModule(moduleId)
+        window.location.hash = moduleId
     }
 
     const handleNavigateFromDashboard = (moduleId) => {
         window.scrollTo(0, 0)
         setCurrentModule(moduleId)
+        window.location.hash = moduleId
     }
 
     const handleBackToServices = () => {

@@ -16,21 +16,21 @@ kayanova/
 │   │   ├── index.css         # Global CSS design system (CSS variables, all styles)
 │   │   ├── main.jsx          # React entry point
 │   │   ├── components/
-│   │   │   ├── LandingPage.jsx       # Public landing page
-│   │   │   ├── StartPage.jsx         # Onboarding step (URL/file input)
-│   │   │   ├── ServicesPage.jsx      # Services overview page
-│   │   │   ├── TransformModal.jsx    # Onboarding modal triggered from landing
+│   │   │   ├── LandingPage.jsx
+│   │   │   ├── StartPage.jsx
+│   │   │   ├── ServicesPage.jsx
+│   │   │   ├── TransformModal.jsx
 │   │   │   ├── layout/
-│   │   │   │   └── AppLayout.jsx     # Authenticated shell: sidebar + header
-│   │   │   ├── modules/              # Main dashboard feature modules
-│   │   │   │   ├── Dashboard.jsx     # Home screen with all tool cards
-│   │   │   │   ├── AIChat.jsx        # AI Command Center chat interface
-│   │   │   │   ├── Analytics.jsx     # Analytics module (coming soon)
-│   │   │   │   ├── Automations.jsx   # Automations module (coming soon)
-│   │   │   │   ├── Documents.jsx     # Documents module
-│   │   │   │   ├── ComingSoonGenerator.jsx  # Placeholder for unreleased tools
+│   │   │   │   └── AppLayout.jsx
+│   │   │   ├── modules/
+│   │   │   │   ├── Dashboard.jsx
+│   │   │   │   ├── AIChat.jsx
+│   │   │   │   ├── Analytics.jsx
+│   │   │   │   ├── Automations.jsx
+│   │   │   │   ├── Documents.jsx
+│   │   │   │   ├── ComingSoonGenerator.jsx
 │   │   │   │   └── CompetitorScannerSection.jsx
-│   │   │   ├── pages/                # Full-page tool views
+│   │   │   ├── pages/
 │   │   │   │   ├── CompetitorAnalysisPage.jsx
 │   │   │   │   ├── ReportPage.jsx
 │   │   │   │   ├── MarketingPlanPage.jsx
@@ -43,28 +43,24 @@ kayanova/
 │   │   │   │   ├── EmailSequencesPage.jsx
 │   │   │   │   ├── WebsiteCopyPage.jsx
 │   │   │   │   └── SEOStrategyPage.jsx
-│   │   │   └── displays/             # Structured display components for API data
+│   │   │   └── displays/
 │   │   │       ├── CompetitorAnalysisDisplay.jsx
 │   │   │       ├── ContentCalendarDisplay.jsx
 │   │   │       ├── MarketingPlanDisplay.jsx
 │   │   │       └── ReportDisplay.jsx
 │   │   └── services/
-│   │       └── api.js                # All n8n webhook API calls
-│   ├── public/                       # Static assets (logo, favicon)
-│   ├── index.html                    # HTML entry point (loads ElevenLabs widget)
+│   │       └── api.js
+│   ├── public/
+│   ├── index.html
 │   ├── package.json
 │   └── vite.config.js
-├── Response Stracture/               # Sample API response JSON/text fixtures
-│   ├── Competitor Analysis Response.txt
-│   ├── Content Calendar Response.txt
-│   ├── Marketing Plan Response.txt
-│   └── Report Response.txt
+├── Response Stracture/
 ├── .agent/
 │   └── workflows/
-│       └── ui-ux-guidelines.md       # Design system reference for UI work
-├── ARCHITECTURE.md                   # System architecture documentation
-├── PROJECT_ROADMAP.md                # Product roadmap
-└── CLIENT_PITCH.md                   # Business overview / pitch deck content
+│       └── ui-ux-guidelines.md
+├── ARCHITECTURE.md
+├── PROJECT_ROADMAP.md
+└── CLIENT_PITCH.md
 ```
 
 ---
@@ -74,13 +70,13 @@ kayanova/
 | Layer | Technology |
 |---|---|
 | Frontend framework | React 18 + Vite |
-| Styling | Plain CSS (single `index.css`, CSS variables design system) |
-| Backend / automation | n8n (self-hosted, webhooks only — no direct DB access from frontend) |
+| Styling | Plain CSS (`index.css` only — no modules) |
+| Backend / automation | n8n webhooks (self-hosted) |
 | AI voice widget | ElevenLabs Conversational AI (`<elevenlabs-convai>`) |
-| Font | Inter (Google Fonts) |
+| Font | **Must replace Inter** — see Design Standards below |
 | Package manager | npm |
 
-There is **no TypeScript** in this project. All source files use `.jsx` or `.js`.
+No TypeScript. All files use `.jsx` / `.js`.
 
 ---
 
@@ -89,22 +85,21 @@ There is **no TypeScript** in this project. All source files use `.jsx` or `.js`
 ```bash
 cd web-app
 npm install
-npm run dev        # Start dev server (Vite, default port 5173)
+npm run dev        # Vite dev server → localhost:5173
 npm run build      # Production build → web-app/dist/
-npm run preview    # Preview production build locally
+npm run preview    # Preview production build
 ```
 
-There is **no test suite** in this repository. There are no lint scripts defined in `package.json`.
+No test suite. No lint scripts.
 
 ### Environment Variables
 
-Create `web-app/.env` to override the webhook base URL:
-
-```
+```bash
+# web-app/.env
 VITE_WEBHOOK_URL=https://your-n8n-instance.example.com
 ```
 
-The default value in `src/services/api.js` is `https://n8n-n8n.vwe4kq.easypanel.host`.
+Default: `https://n8n-n8n.vwe4kq.easypanel.host`
 
 ---
 
@@ -112,202 +107,362 @@ The default value in `src/services/api.js` is `https://n8n-n8n.vwe4kq.easypanel.
 
 ### Routing / Navigation
 
-There is **no React Router**. Navigation is managed entirely through `App.jsx` state:
+**No React Router.** Navigation is managed entirely through `App.jsx` state:
 
-- `isLoggedIn` (boolean) — toggles between landing page and the authenticated dashboard
-- `currentModule` (string) — determines which component to render inside `AppLayout`
+- `isLoggedIn` (boolean) — toggles landing page vs authenticated dashboard
+- `currentModule` (string) — determines which component renders inside `AppLayout`
 
-Module IDs used in `currentModule`:
-`dashboard`, `chat`, `competitor`, `report`, `marketing`, `calendar`, `personas`, `campaign`, `brandvoice`, `adcopy`, `social`, `email`, `websitecopy`, `seo`, `documents`, `automations`, `analytics`, `design`
+**IMPORTANT: `currentModule` must be synced to `window.location.hash`** so users can deep-link to any tool and refresh without losing their place. When adding any new module, update the hash sync map in `App.jsx`.
+
+Module IDs: `dashboard`, `chat`, `competitor`, `report`, `marketing`, `calendar`, `personas`, `campaign`, `brandvoice`, `adcopy`, `social`, `email`, `websitecopy`, `seo`, `documents`, `automations`, `analytics`, `design`
 
 To add a new page:
-1. Create the component in `src/components/pages/`
-2. Import it in `App.jsx`
-3. Add a `case` to the `renderModule()` switch
-4. Add the module ID to `getPageTitle()` in `AppLayout.jsx`
-5. Add a card to `Dashboard.jsx` pointing to the new module ID
+1. Create component in `src/components/pages/`
+2. Import in `App.jsx`
+3. Add `case` to `renderModule()` switch
+4. Add module ID to `getPageTitle()` in `AppLayout.jsx`
+5. Add card to `Dashboard.jsx` pointing to the new module ID
+6. Update hash sync map in `App.jsx`
 
 ### API Layer (`src/services/api.js`)
 
-All backend calls go through n8n webhooks. The pattern is:
+All backend calls go through n8n webhooks:
 
 ```js
 export async function getXxx() {
     const response = await fetch(`${WEBHOOK_BASE}/webhook/endpoint-name`, {
-        method: 'GET',  // or POST
+        method: 'GET',
         headers: { 'Content-Type': 'application/json' },
-        // body: JSON.stringify(payload)  // for POST
     });
-    if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
+    if (!response.ok) throw new Error(`Request failed: ${response.status}`);
     return response.json();
 }
 ```
 
-Available API functions:
-- `submitWebsiteData(url, file)` — onboarding POST, sends URL or file as base64
+**Always wrap API calls in try/catch in the component.** Never let an uncaught webhook error crash the UI — show an inline error state with a retry button instead.
+
+Available functions:
+- `submitWebsiteData(url, file)` — onboarding POST
 - `getReport()` — GET market research report
 - `getCompetitorAnalysis()` — GET competitor analysis
-- `generateMarketingPlan()` — POST to trigger generation (shared endpoint with content calendar)
-- `getMarketingPlan()` — GET generated marketing plan
-- `generateContentCalendar()` — POST to trigger generation
-- `getContentCalendar()` — GET generated content calendar
-- `analyzeFacebookCompetitor(facebookUrl)` — POST Facebook page URL for analysis
+- `generateMarketingPlan()` — POST trigger (shared with content calendar)
+- `getMarketingPlan()` — GET generated plan
+- `generateContentCalendar()` — POST trigger
+- `getContentCalendar()` — GET calendar
+- `analyzeFacebookCompetitor(facebookUrl)` — POST Facebook URL
 
 ### Styling Conventions
 
-- **All styles** live in `src/index.css` — there are no CSS modules or component-level CSS files.
-- The design system uses CSS custom properties (variables) defined in `:root`. Always use these variables rather than hard-coded colours or spacing values.
-- Key variable prefixes: `--color-*`, `--spacing-*`, `--radius-*`, `--shadow-*`, `--font-*`, `--text-*`, `--gradient-*`
-- Dark theme only; background palette: `--color-bg-primary` (#09090b) → `--color-bg-elevated` (#1c1c21)
+- **All styles live in `src/index.css`** — no CSS modules, no component-level styles, no inline `style` attributes.
+- Always use CSS variables — never hardcoded hex, px, or rem values.
+- Variable prefixes: `--color-*`, `--spacing-*`, `--radius-*`, `--shadow-*`, `--font-*`, `--text-*`, `--gradient-*`
+- Dark theme only. Background: `--color-bg-primary` (#09090b) → `--color-bg-elevated` (#1c1c21)
 - Primary accent: `--color-accent` (#6366f1, indigo)
-- When adding new CSS classes, add them to `index.css` and follow the existing BEM-like naming style.
-- **Follow the Antigravit Frontend Standards** below for all new styling and visual polish.
+- `color-scheme: dark` must be set on `:root` — fixes native scrollbars, selects, date inputs.
+- New CSS classes follow BEM-like naming: `.module-name__element--modifier`
 
 ### Component Conventions
 
-- All components are **functional components** using React hooks.
-- Props are documented inline via destructuring in the function signature.
-- No PropTypes or TypeScript types are used.
-- `useState` and `useEffect` are the primary hooks; `useCallback` is used for event handlers that would cause re-renders.
-- Conditional rendering uses short-circuit (`&&`) or ternaries.
-- Lists are rendered with `.map()` and always include a `key` prop.
-- **Accessibility**: Follow the standards below (ARIA labels, keyboard handlers, semantic HTML).
+- Functional components with React hooks only — no class components.
+- No PropTypes, no TypeScript.
+- Primary hooks: `useState`, `useEffect`, `useCallback` (for handlers that would cause re-renders).
+- Conditional rendering: short-circuit (`&&`) or ternary only.
+- Lists: always `.map()` with a `key` prop.
+- **Every data-fetching component must handle loading, error, and empty states** — never render broken UI for missing data.
 
 ---
 
 ## ⚡ Antigravit Frontend Standards
 
-*The following standards define the peak aesthetic and technical excellence for this project.*
-
-### 🎨 Design Philosophy
-
-Before writing a single line of code, commit to a **BOLD aesthetic direction**. Ask:
-- **Purpose** — What problem does this UI solve? Who uses it?
-- **Tone** — Pick one and own it: brutally minimal / maximalist / retro-futuristic / luxury / editorial / brutalist / art-deco / industrial. Execute with precision.
-- **Differentiation** — What makes this screen UNFORGETTABLE?
-
-> Bold maximalism and refined minimalism both work. The key is **intentionality**, not intensity.
-
-#### ❌ Never Do (AI Slop)
-- Inter, Roboto, Arial, or system fonts as primary typeface
-- Purple gradients on white backgrounds
-- Uniform rounded corners everywhere
-- Cookie-cutter centered layouts with no spatial tension
-- `Space Grotesk` — overused, avoid entirely
-
-#### ✅ Always Do
-- Pair a **distinctive display font** with a refined body font (use Google Fonts or Bunny Fonts)
-- Use **CSS variables** for all colors/spacing — never magic numbers
-- Dominant color palette with **sharp accent** — not evenly distributed pastels
-- Unexpected layouts: asymmetry, overlap, diagonal flow, grid-breaking elements
-- Atmosphere: gradient meshes, noise textures, geometric patterns, grain overlays, dramatic shadows
-
-### ♿ Accessibility
-
-- Icon-only buttons **must** have `aria-label`
-- All form controls need `<label>` or `aria-label`
-- Interactive elements need keyboard handlers (`onKeyDown` / `onKeyUp`)
-- Use `<button>` for actions, `<a>` / `<Link>` for navigation — **never** `<div onClick>`
-- All `<img>` need `alt` (or `alt=""` if purely decorative)
-- Decorative icons need `aria-hidden="true"`
-- Async updates (toasts, validation) need `aria-live="polite"`
-- Prefer semantic HTML (`<button>`, `<a>`, `<label>`, `<table>`) over ARIA attributes
-- Headings must be hierarchical `<h1>` → `<h6>` — include skip link for main content
-- Add `scroll-margin-top` on anchor headings
-
-### 🎯 Focus States
-
-- All interactive elements need **visible focus**: `focus-visible:ring-*` or equivalent
-- **Never** use `outline-none` / `outline: 0` without a custom focus-visible replacement
-- Use `:focus-visible` over `:focus` — avoid showing ring on mouse click
-- Use `:focus-within` for compound controls (e.g., input groups)
-
-### 📝 Forms
-
-- Inputs need `autocomplete` and a meaningful `name` attribute
-- Use correct `type` (`email`, `tel`, `url`, `number`) and `inputmode`
-- **Never** block paste (`onPaste` + `preventDefault`)
-- Labels must be clickable (`htmlFor` or wrapping the control)
-- Disable spellcheck on emails, codes, usernames: `spellCheck={false}`
-- Checkboxes/radios: label + control share a single hit target — no dead zones
-- Submit button stays **enabled** until request fires; show spinner during request
-- Errors displayed **inline** next to fields; focus first error on submit
-- Placeholders end with `…` and show example pattern
-- `autocomplete="off"` only on non-auth fields
-- Warn before navigation with unsaved changes (`beforeunload` or router guard)
-
-### 🎞️ Animation
-
-- Always honor `prefers-reduced-motion` — provide reduced variant or disable entirely
-- Animate **only** `transform` and `opacity` — compositor-friendly, no layout thrashing
-- **Never** use `transition: all` — list properties explicitly
-- Always set `transform-origin` explicitly
-- SVG animations: use transforms on `<g>` wrapper with `transform-box: fill-box; transform-origin: center`
-- Animations must be **interruptible** — respond to user input mid-animation
-- Focus on **high-impact moments**: one orchestrated page-load with staggered `animation-delay` > scattered micro-interactions
-
-### 🔤 Typography & Copy
-
-- Use `…` (ellipsis character) — **not** `...` (three dots)
-- Curly quotes `"` `"` — **not** straight `"`
-- Non-breaking spaces for: `10&nbsp;MB`, `⌘&nbsp;K`, brand names
-- Loading states: `"Loading…"`, `"Saving…"` — never `"Loading..."`
-- Number columns/comparisons: `font-variant-numeric: tabular-nums`
-- Headings: `text-wrap: balance` or `text-pretty` — prevents orphaned words
-- **Active voice**: "Install the CLI" — not "The CLI will be installed"
-- **Title Case** for headings and buttons (Chicago style)
-- **Specific labels**: "Save API Key" — not "Continue"
-
-### 📦 Content Handling
-
-- Text containers must handle long content: `truncate`, `line-clamp-*`, or `break-words`
-- Flex children need `min-w-0` to allow text truncation
-- **Always** handle empty states — never render broken UI for empty strings/arrays
-
-### ⚡ Performance
-
-- Lists > 50 items: **virtualize** (`virtua`, `react-virtual`, or `content-visibility: auto`)
-- **No** layout reads inside render (`getBoundingClientRect`, `offsetHeight`, `scrollTop`)
-- Batch DOM reads/writes — never interleave
-- Prefer **uncontrolled** inputs; controlled inputs must be cheap per keystroke
-- Add `<link rel="preconnect">` for CDN/external asset domains
-- Critical fonts: `<link rel="preload" as="font">` + `font-display: swap`
-
-### 🧭 Navigation & State
-
-- **URL reflects state** — filters, tabs, pagination, expanded panels → query params
-- Links always use `<a>` / `<Link>` (Cmd+click, middle-click, SEO)
-- Deep-link all stateful UI
-- Destructive actions need a **confirmation modal or undo window**
-
-### 📐 Layout & Safe Areas
-
-- Full-bleed layouts: use `env(safe-area-inset-*)` for notch/island devices
-- Prevent unwanted scrollbars: `overflow-x-hidden` on containers
-- Prefer **flex/grid** over JS measurement for layout
-
-### 🌙 Dark Mode & Theming
-
-- Set `color-scheme: dark` on `<html>` for dark themes (fixes scrollbar, native inputs)
-- `<meta name="theme-color">` must match the page background color
+*These standards are mandatory. No exceptions. Flag any violation immediately.*
 
 ---
 
-## 🚩 Anti-Patterns — Flag These Immediately
+### 🎨 Design Philosophy
 
-| Anti-Pattern | Why |
+Before writing a single line of code, commit to a **bold aesthetic direction**:
+
+- **Purpose** — What problem does this screen solve? Who uses it?
+- **Tone** — Own one and execute it precisely: brutally minimal / maximalist / retro-futuristic / luxury / editorial / brutalist / art-deco / industrial.
+- **Differentiation** — What makes this screen unforgettable?
+
+Bold maximalism and refined minimalism both work. The key is **intentionality**, not intensity.
+
+#### ❌ Never — instant reject
+
+- `Inter`, `Roboto`, `Arial`, system fonts as display typeface
+- Purple gradients on white or light backgrounds
+- Uniform `border-radius` on every element
+- Cookie-cutter centered layouts with no spatial tension
+- `Space Grotesk` — overused, banned entirely
+- `transition: all` — ever, anywhere
+- `outline: none` without a `:focus-visible` replacement
+
+#### ✅ Always
+
+- Pair a **distinctive display font** with a refined body font (Google Fonts or Bunny Fonts)
+- **CSS variables for everything** — never magic numbers
+- Dominant palette + **sharp accent** — not evenly distributed pastels
+- Spatial surprise: asymmetry, overlap, diagonal flow, grid-breaking elements
+- Atmosphere: gradient meshes, noise textures, geometric patterns, grain overlays, dramatic shadows
+
+---
+
+### ♿ Accessibility
+
+Every interactive element must be keyboard and screen-reader accessible.
+
+- Icon-only buttons **must** have `aria-label="Descriptive action"` — no label = invisible to screen readers
+- All form controls need `<label htmlFor="...">` or `aria-label`
+- Interactive elements need keyboard handlers: `onKeyDown` where click alone is not enough
+- Use `<button>` for actions, `<a>` for navigation — **never** `<div onClick>` or `<span onClick>`
+- All `<img>` need `alt="..."` (or `alt=""` if purely decorative)
+- Decorative icons need `aria-hidden="true"`
+- Async UI updates (webhook responses loading in, toasts, validation) need `aria-live="polite"`
+- Prefer semantic HTML (`<button>`, `<nav>`, `<main>`, `<section>`, `<label>`, `<table>`) over ARIA
+- Headings hierarchical `<h1>` → `<h6>` — never skip levels
+- Include a visually-hidden skip-to-main link for keyboard users
+
+---
+
+### 🎯 Focus States
+
+Keyboard navigation must always be visually obvious.
+
+```css
+/* Add to index.css — applies globally */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+```
+
+- **Never** `outline: none` or `outline: 0` without an explicit `:focus-visible` replacement directly after it
+- Use `:focus-visible` — not `:focus` (avoids ring on mouse click)
+- Use `:focus-within` for compound controls: input + attached button groups
+
+---
+
+### 📝 Forms
+
+- Inputs need `autocomplete="..."` and a meaningful `name="..."` attribute
+- Use correct `type`: `email`, `tel`, `url`, `number`, `search`
+- Add `inputMode="url"` on URL fields, `inputMode="email"` on email (mobile keyboard)
+- **Never** block paste: no `onPaste` + `e.preventDefault()`
+- Labels must be clickable: `<label htmlFor="input-id">` or wrap input inside label
+- Disable spellcheck on technical fields: `spellCheck={false}` on email, URL, username, API key inputs
+- Submit button stays **enabled** until request fires — then disable and show spinner
+- Errors displayed **inline** next to the field — focus first error on submit
+- Placeholders end with `…` and show a real example: `placeholder="https://yoursite.com…"`
+- Warn on navigate-away with unsaved data: `beforeunload` event
+
+---
+
+### 🎞️ Animation
+
+```css
+/* Correct pattern */
+.card {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card-enter {
+    animation: fadeUp 300ms ease both;
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+```
+
+- **Always** wrap `@keyframes` usage in `@media (prefers-reduced-motion: no-preference)`
+- Animate only `transform` and `opacity` — compositor-friendly, no layout thrashing
+- **Never** `transition: all` — always list specific properties explicitly
+- Set `transform-origin` explicitly on every animated element
+- Animations must be interruptible — never lock the UI during a transition
+- One orchestrated page-load with staggered `animation-delay` beats scattered micro-interactions everywhere
+
+---
+
+### 🔤 Typography & Copy
+
+**Characters:**
+- `…` ellipsis character — not `...` three periods
+- `"curly quotes"` — not `"straight quotes"`
+- Non-breaking spaces: `10&nbsp;MB`, `⌘&nbsp;K`, product names
+
+**Loading copy:**
+- `"Analyzing competitors…"` — not `"Loading..."`
+- `"Generating your plan…"` — not `"Please wait..."`
+
+**CSS:**
+```css
+/* Numbers in tables and data — add to relevant containers */
+font-variant-numeric: tabular-nums;
+
+/* All headings */
+h1, h2, h3, h4 {
+  text-wrap: balance;
+}
+
+/* Body paragraphs */
+p {
+  text-wrap: pretty;
+}
+```
+
+**Voice:**
+- Active voice: "Run the analysis" — not "The analysis will be run"
+- Title Case for headings and button labels (Chicago style)
+- Numerals: "8 competitors found" — not "eight competitors found"
+- Specific CTAs: "Generate Marketing Plan" — not "Continue" or "Submit"
+- Error messages say what to do next — not just what went wrong
+
+---
+
+### 📦 Content & Empty States
+
+Every data-fetching component must handle all four states:
+
+```jsx
+// Required pattern — pages/* and displays/* components
+if (loading) return <LoadingState message="Analyzing…" />;
+if (error)   return <ErrorState message={error.message} onRetry={refetch} />;
+if (!data || data.length === 0) return <EmptyState />;
+return <ActualContent data={data} />;
+```
+
+- Flex children containing text need `min-width: 0` to allow truncation
+- Long text: `overflow: hidden; text-overflow: ellipsis; white-space: nowrap`
+- Multi-line clamp: `display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden`
+- User-generated content: test with very short, average, and very long strings
+
+---
+
+### ⚡ Performance
+
+- Lists > 50 items: virtualize with `virtua` or `content-visibility: auto`
+- **No layout reads in render** — never call `getBoundingClientRect()`, `offsetHeight`, `scrollTop` during rendering
+- Batch DOM reads/writes — never interleave them
+- Prefer uncontrolled inputs (`defaultValue`) — controlled inputs must be cheap per keystroke
+
+```html
+<!-- index.html — add for Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="font" type="font/woff2" crossorigin href="...">
+```
+
+```css
+/* index.css — on @font-face or @import */
+font-display: swap;
+```
+
+---
+
+### 🧭 Navigation & State
+
+- **`currentModule` must be synced to `window.location.hash`** — refresh and deep-links must work
+- All navigation uses `<button>` or `<a>` — never bare `<div onClick>`
+- Destructive actions (delete, reset, clear generated content) need a **confirmation step** — never fire immediately
+- Stateful UI (filters, tabs, expanded panels) should survive page refresh where possible
+
+---
+
+### 📱 Touch & Mobile
+
+```css
+/* Add to buttons, links, and interactive elements */
+button, a, [role="button"] {
+  touch-action: manipulation;        /* eliminates 300ms tap delay */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Modals and drawers */
+.modal, .drawer {
+  overscroll-behavior: contain;
+}
+```
+
+- `autoFocus` only on desktop, only on a single primary input — never on mobile
+- During drag: set `user-select: none` and `pointer-events: none` on non-dragged elements
+
+---
+
+### 📐 Layout & Safe Areas
+
+```css
+/* Full-bleed sidebar/header — add for iPhone notch support */
+.app-layout {
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+```
+
+- Prevent horizontal scroll: `overflow-x: hidden` on root — fix the source, don't just mask it
+- Flex and grid over JS layout measurement — always
+
+---
+
+### 🌙 Dark Mode & Theming
+
+```css
+/* index.css — :root */
+:root {
+  color-scheme: dark;
+}
+```
+
+```html
+<!-- index.html — inside <head> -->
+<meta name="theme-color" content="#09090b">
+```
+
+- Never hardcode `#fff`, `#000`, or any hex — always use `--color-*` variables
+- Native `<select>` on Windows dark mode needs explicit `background-color` and `color`
+
+---
+
+### 🌍 Locale & Dates
+
+```js
+// Always — never hardcoded format strings
+new Intl.DateTimeFormat(navigator.language, { dateStyle: 'medium' }).format(date)
+new Intl.NumberFormat(navigator.language, { style: 'currency', currency: 'USD' }).format(amount)
+```
+
+---
+
+## 🚩 Anti-Patterns — Fix On Sight
+
+If you see any of these, fix them without being asked.
+
+| Anti-Pattern | Fix |
 |---|---|
-| `user-scalable=no` or `maximum-scale=1` | Blocks zoom — accessibility violation |
-| `onPaste` + `preventDefault` | Blocks paste — terrible UX |
-| `transition: all` | Performance killer — list properties explicitly |
-| `outline-none` without focus replacement | Accessibility violation |
-| `<div onClick>` for navigation | No keyboard/Cmd+click support |
-| `<div>` / `<span>` as buttons | Wrong semantics — use `<button>` |
-| `<img>` without `width` + `height` | Causes CLS |
-| `.map()` on >50 items without virtualization | Performance issue |
-| Form inputs without labels | Accessibility violation |
-| Icon buttons without `aria-label` | Screen reader failure |
-| Hardcoded date/number formats | Breaks i18n |
-| `Inter` / `Roboto` / `Arial` as display font | Generic AI slop |
-| Purple gradients on white | Cliché — never |
-| `Space Grotesk` | Overused — banned |
+| `transition: all` | List specific properties: `transition: transform 200ms ease` |
+| `outline: none` without `:focus-visible` | Add `outline: 2px solid var(--color-accent)` in `:focus-visible` |
+| `<div onClick>` or `<span onClick>` | Replace with `<button>` or `<a>` |
+| Icon button with no `aria-label` | Add `aria-label="Descriptive action"` |
+| Form input with no `<label>` | Add `<label htmlFor="...">` or `aria-label` |
+| `<img>` with no `alt` | Add `alt="description"` or `alt=""` if decorative |
+| `.map()` on 50+ items without virtualization | Add `content-visibility: auto` or `virtua` |
+| Hardcoded hex or px in CSS | Replace with CSS variables |
+| `Inter` / `Roboto` / `Arial` as display font | Replace with a distinctive typeface |
+| `Space Grotesk` anywhere | Remove — banned |
+| `"Loading..."` copy | Replace with `"Loading…"` |
+| `currentModule` not synced to URL hash | Add `window.location.hash` sync to `App.jsx` |
+| Missing error / empty / loading state | Add all three to every data-fetching component |
+| No `color-scheme: dark` on `:root` | Add to `index.css` |
+| No `<meta name="theme-color">` | Add to `index.html` |
+| `onPaste` + `e.preventDefault()` | Remove — never block paste |
+| `user-scalable=no` in viewport meta | Remove — blocks zoom accessibility |
+| Hardcoded date/number format strings | Replace with `Intl.DateTimeFormat` / `Intl.NumberFormat` |
+| Missing `prefers-reduced-motion` | Wrap all `@keyframes` usage in the media query |
+| Destructive action with no confirmation | Add confirmation modal or inline confirm step |
+| No `touch-action: manipulation` on buttons | Add to button/link/interactive element styles |
+| Missing `aria-live="polite"` on async updates | Add to loading/result containers |

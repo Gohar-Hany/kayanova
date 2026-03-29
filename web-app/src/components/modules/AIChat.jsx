@@ -54,12 +54,12 @@ function AIChat({ userData, onNavigate }) {
 
     const simulateGeneration = async (query) => {
         const steps = [
-            { label: 'Understanding request...', progress: 10 },
-            { label: 'Analyzing requirements...', progress: 25 },
-            { label: 'Gathering market data...', progress: 40 },
-            { label: 'Processing insights...', progress: 60 },
-            { label: 'Generating content...', progress: 80 },
-            { label: 'Finalizing output...', progress: 95 },
+            { label: 'Understanding request…', progress: 10 },
+            { label: 'Analyzing requirements…', progress: 25 },
+            { label: 'Gathering market data…', progress: 40 },
+            { label: 'Processing insights…', progress: 60 },
+            { label: 'Generating content…', progress: 80 },
+            { label: 'Finalizing output…', progress: 95 },
         ]
 
         for (const step of steps) {
@@ -184,7 +184,7 @@ function AIChat({ userData, onNavigate }) {
                         <h3>AI Command Center</h3>
                         <span className="chat-status">
                             <span className="status-dot active"></span>
-                            {isGenerating ? 'Generating...' : 'Ready to execute'}
+                            {isGenerating ? 'Generating…' : 'Ready to execute'}
                         </span>
                     </div>
                 </div>
@@ -195,7 +195,7 @@ function AIChat({ userData, onNavigate }) {
             </div>
 
             {/* Messages Area */}
-            <div className="chat-messages">
+            <div className="chat-messages" aria-live="polite">
                 {messages.map((message) => (
                     <div key={message.id} className={`chat-message ${message.type}`}>
                         {message.type === 'ai' && (
@@ -295,7 +295,7 @@ function AIChat({ userData, onNavigate }) {
                     <textarea
                         ref={inputRef}
                         className="chat-input"
-                        placeholder="Command your marketing... (e.g., 'Analyze competitors in the AI automation space')"
+                        placeholder="Describe what you need… (e.g., ‘Analyze competitors in the AI automation space’)"
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyDown={handleKeyDown}
